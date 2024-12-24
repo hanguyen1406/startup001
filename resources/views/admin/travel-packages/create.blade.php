@@ -5,7 +5,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah Paket Travel</h1>
+        <h1 class="h3 mb-0 text-gray-800">Thêm mới vé</h1>
     </div>
 
     @if($errors->any())
@@ -44,14 +44,14 @@
                         <input type="text" class="form-control" id="duration" name="duration" value="{{ old('duration') }}" />
                     </div>
                     <div class="form-group">
-                        <label for="description">description</label>
+                        <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5" class="d-block w-100 form-control">{{ old('description') }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
                         <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}" />
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
+                    <button type="submit" class="btn btn-primary btn-block">Xác nhận</button>
                 </form>
             </div>
         </div>

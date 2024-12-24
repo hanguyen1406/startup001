@@ -11,20 +11,19 @@
               />
             </a>
             <p class="title-alt mt-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, aut.
+            Bản thân công ty chúng tôi đã là một công ty rất thành công
             </p>
           </div>
           <div class="col-lg-3 mb-3">
             <ul class="list-group list-group-flush">
               <li class="list-group-item" style="border-bottom: none">
-                <a href="#" class="title">Home</a>
+                <a href="#" class="title">Trang chủ</a>
               </li>
               <li class="list-group-item" style="border-bottom: none">
-                <a href="#" class="title">Payment</a>
+                <a href="#" class="title">Thanh toán</a>
               </li>
               <li class="list-group-item" style="border-bottom: none">
-                <a href="#" class="title">Order</a>
+                <a href="#" class="title">Đặt vé ngay</a>
               </li>
             </ul>
           </div>
@@ -49,13 +48,10 @@
                 >
               </li>
               <li class="list-group-item" style="border-bottom: none">
-                <span class="title">Jln baturiti jeringo kode post 83351</span>
+                <span class="title">Hotline: 12345678</span>
               </li>
             </ul>
           </div>
-        </div>
-        <div class="container-fluid text-center py-4 border-top mt-4">
-          <small>@Copyright • Abdul Aziz 2021 • All reserved</small>
         </div>
       </div>
     </footer>

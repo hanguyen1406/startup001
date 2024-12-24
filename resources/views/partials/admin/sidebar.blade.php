@@ -27,17 +27,6 @@
             <span>Travel Package</span></a>
     </li>
 
-    <li class="nav-item ">
-        <a class="nav-link" href="{{ route('admin.cars.index') }}">
-            <i class="fas fa-fw fa-car"></i>
-            <span>Car</span></a>
-    </li>
-
-    <li class="nav-item ">
-        <a class="nav-link" href="{{ route('admin.posts.index') }}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Post</span></a>
-    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">

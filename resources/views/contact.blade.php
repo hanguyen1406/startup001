@@ -14,8 +14,8 @@
         <div
           class="hero-content h-100 d-flex justify-content-center align-items-center flex-column"
         >
-          <h1 class="text-center text-white display-4">Kontak Kami</h1>
-          <p class="text-white">Kami butuh feedback untuk pelayanan yang lebih baik</p>
+          <h1 class="text-center text-white display-4">Liên hệ chúng tôi</h1>
+          <p class="text-white">Chúng tôi cần phản hồi để dịch vụ tốt hơn</p>
           <hr width="40" class="text-center" />
         </div>
       </section>
@@ -35,18 +35,18 @@
                     <form method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Tên</label>
                             <input type="text" name="name" class="form-control" id="name">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" id="exampleInputEmail1">
                         </div>
                         <div class="mb-3">
-                            <label for="message" class="form-label">Pesan</label>
+                            <label for="message" class="form-label">Nội dung</label>
                             <textarea name="message" class="form-control" rows="5" id="message"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-contact">Kirim</button>
+                        <button type="submit" class="btn btn-contact">Phản hồi</button>
                     </form>
                 </div>
             </div>

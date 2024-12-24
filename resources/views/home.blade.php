@@ -17,25 +17,24 @@
           class="hero-content h-100 d-flex justify-content-center align-items-center flex-column"
         >
           <h1 class="text-center text-white display-4">
-            Explore surganya lombok
+            Khám phá vẻ đẹp quê hương Việt Nam
           </h1>
-          <a href="#package" class="btn btn-hero mt-5">Book Now</a>
+          <a href="#package" class="btn btn-hero mt-5">Đặt vé ngay</a>
         </div>
       </section>
 
       <!--=============== Why us ===============-->
       <section class="container why-us text-center">
-        <h2 class="section-title">Kenapa Memilih Kami</h2>
+        <h2 class="section-title">Tại sao lên chọn chúng tôi</h2>
         <hr width="40" class="text-center" />
         <div class="row mt-5">
           <div class="col-lg-4 mb-3">
             <div class="card pt-4 pb-3 px-2">
               <div class="why-us-content">
                 <i class="bx bx-money why-us-icon mb-4"></i>
-                <h4 class="mb-3">Save Money</h4>
+                <h4 class="mb-3">Tiết kiệm chi phí</h4>
                 <p>
-                  Paket liburan yang terjangkau & berkualitas bagi semua jenis
-                  wisatawan
+                Gói kỳ nghỉ giá cả phải chăng và chất lượng cho mọi loại khách du lịch
                 </p>
               </div>
             </div>
@@ -44,10 +43,9 @@
             <div class="card pt-4 pb-3 px-2">
               <div class="why-us-content">
                 <i class="bx bxs-heart why-us-icon mb-4"></i>
-                <h4 class="mb-3">Stay Safe</h4>
+                <h4 class="mb-3">An toàn</h4>
                 <p>
-                  Menjamin keamanan dan kenyamanan anda melalui standard
-                  operasional yang professional.
+                Đảm bảo sự an toàn và thoải mái của bạn thông qua các tiêu chuẩn vận hành chuyên nghiệp
                 </p>
               </div>
             </div>
@@ -56,10 +54,9 @@
             <div class="card pt-4 pb-3 px-2">
               <div class="why-us-content">
                 <i class="bx bx-timer why-us-icon mb-4"></i>
-                <h4 class="mb-3">Save Time</h4>
+                <h4 class="mb-3">Tối ưu thời gian</h4>
                 <p>
-                  Anda tidak perlu bingung tentang pemilihan hotel, restaurant
-                  semua kami yang atur.
+                Bạn không cần phải bối rối trong việc lựa chọn khách sạn hay nhà hàng, chúng tôi sẽ sắp xếp mọi việc.
                 </p>
               </div>
             </div>
@@ -86,7 +83,7 @@
                 </div>
                 <div class="package-price d-flex justify-content-center">
                   <span class="btn btn-light position-absolute package-btn">
-                    IDR.{{ number_format($travelPackage->price) }}
+                    {{ number_format($travelPackage->price) }} vnđ
                   </span>
                 </div>
                 <h5 class="btn position-absolute w-100">
@@ -101,29 +98,6 @@
       </section>
       @endforeach
 
-      <!-- Cars -->
-      <section class="container text-center">
-        <h2 class="section-title">Daftar Harga Transpot</h2>
-        <hr width="40" class="text-center"  />
-        <div class="row">
-
-        @foreach(\App\Models\Car::get() as $car)
-          <div class="col-lg-3 mb-5">
-            <div class="card p-3 border-0" style="border-radius: 0;text-align:left;">
-              <img style="height: 200px;object-fit: contain;" src="{{ Storage::url($car->image) }}" alt="">
-              <h4 class="main-color fw-bold mb-4" style="font-size: 1.4rem">{{ $car->name }}</h4>
-              <span class="fw-bold mb-4" >Harga : IDR.{{ $car->price }}</span> 
-              <span class="d-flex mb-3"><i class='bx bxs-gas-pump main-color fs-4 me-3 '></i> <strong>Driver + BBM</strong> </span> 
-              <span class="d-flex"><i class='bx bxs-time-five main-color fs-4 me-3' ></i> <strong>{{ $car->duration }}</strong></span>
-              <a href="#" class="btn mt-4 btn-book">Booking</a> 
-
-            </div>
-          </div>
-          @endforeach
-
-        </div>
-      </section>
-
       <!--=============== Video ===============-->
       <section class="container text-center">
         <h2 class="section-title">Video Tour</h2>
@@ -133,36 +107,12 @@
             <iframe
               width="100%"
               height="500px"
-              src="https://www.youtube.com/embed/lyGaTk4MLVM?controls=1"
+              src="https://www.youtube.com/embed/5O1ZmJvK-yI?controls=1"
             >
             </iframe>
           </div>
         </div>
       </section>
 
-      <!--=============== Blog ===============-->
-      <section class="container blog text-center">
-        <h2 class="section-title">Our Blog</h2>
-        <hr width="40" class="text-center" />
-
-        <div class="row justify-content-center mt-5">
-        @foreach($posts as $post)
-          <div class="col-lg-4 mb-4 blogpost">
-            <a href="{{ route('posts.show', $post)  }}">
-              <div class="card-post">
-                <div class="card-post-img">
-                  <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8dHJhdmVsJTIwYmFsaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"
-                    alt="{{ $post->title }}">
-                </div>
-                <div class="card-post-data">
-                  <span>Travel</span> <small>- {{ $post->created_at->diffForHumans() }}</small>
-                  <h5>{{ $post->title }}</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-        @endforeach
-        </div>
-      </section>
     </main>
 @endsection

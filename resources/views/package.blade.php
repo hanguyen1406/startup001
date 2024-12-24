@@ -16,7 +16,7 @@
         <div
           class="hero-content h-100 d-flex justify-content-center align-items-center flex-column"
         >
-          <h1 class="text-center text-white display-4">Paket Travel</h1>
+          <h2 class="text-center text-white display-5">Chọn vé phù hợp với bạn</h2>
           <hr width="40" class="text-center" />
         </div>
       </section>

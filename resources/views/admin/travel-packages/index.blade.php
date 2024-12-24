@@ -5,8 +5,8 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Paket Travel</h1>
-            <a href="{{ route('admin.travel-packages.create') }}" class="btn btn-primary btn-sm shadow-sm">Tambah Paket Travel  <i class="fa fa-plus"> </i></a>
+        <h1 class="h3 mb-0 text-gray-800">Các loại vé</h1>
+            <a href="{{ route('admin.travel-packages.create') }}" class="btn btn-primary btn-sm shadow-sm">Thêm mới  <i class="fa fa-plus"> </i></a>
     </div>
 
         <div class="card-body">
@@ -55,7 +55,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center">Data Kosong</td>
+                            <td colspan="7" class="text-center">Dữ liệu trống</td>
                         </tr>
                         @endforelse
                     </tbody>
