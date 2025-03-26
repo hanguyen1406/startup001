@@ -11,20 +11,33 @@ use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
     public function home() : View
     {
         $categories = Category::with('travel_packages')->get();
-
         return view('home', compact('categories'));
+        // $categories = DB::table('vw_categories_with_travel_packages')
+        // ->select('category_id', 'category_name', 'slug', 'name', 'id', 'image_path', 'price')
+        // ->get()
+        // ->groupBy('category_id'); // Nhóm theo category_id
+
+        // return view('home', compact('categories'));
     }
 
-    public function detail(TravelPackage $travelPackage): View
+    public function detail($slug)
     {
+        $travelPackage = TravelPackage::where('slug', $slug)->first();
+
+        if (!$travelPackage) {
+            abort(404, 'Travel Package not found');
+        }
+
         return view('detail', compact('travelPackage'));
     }
+
     public function order(TravelPackage $travelPackage, Request $request)
     {
         $validator = Validator::make($request->all(), [

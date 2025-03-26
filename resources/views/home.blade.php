@@ -65,25 +65,27 @@
       </section>
 
       <!--=============== Package ===============-->
-      @foreach($categories as $category)
+      @foreach($categories as $category_id => $categoryGroup)
+      @php $category = $categoryGroup->first(); @endphp
+
       <section class="container package text-center" id="package">
-        <h2 class="section-title">{{ $category->title }}</h2>
+        <h2 class="section-title">{{ $category->category_name }}</h2>
         <hr width="40" class="text-center" />
         <div class="row mt-5 justify-content-center">
 
-        @foreach($category->travel_packages as $travelPackage)
+        @foreach($categoryGroup as $travelPackage)
           <div class="col-lg-3" style="margin-bottom: 140px">
             <div class="card package-card">
-              <a href="{{ route('detail', $travelPackage) }}" class="package-link">
+              <a href="{{ route('detail', $travelPackage->slug) }}" class="package-link">
                 <div class="package-wrapper-img overflow-hidden">
                   <img
-                    src="{{ Storage::url($travelPackage->galleries->first()->path) }}"
+                    src="{{ Storage::url($travelPackage->image_path) }}"
                     class="img-fluid"
                   />
                 </div>
                 <div class="package-price d-flex justify-content-center">
                   <span class="btn btn-light position-absolute package-btn">
-                    {{ number_format($travelPackage->price) }} vnđ
+                    {{ number_format($travelPackage->price ?? 0) }} vnđ
                   </span>
                 </div>
                 <h5 class="btn position-absolute w-100">
@@ -96,7 +98,8 @@
 
         </div>
       </section>
-      @endforeach
+    @endforeach
+
 
       <!--=============== Video ===============-->
       <section class="container text-center">

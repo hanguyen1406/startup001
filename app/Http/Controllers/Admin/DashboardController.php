@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index(){
-        $orders = DB::select('SELECT * FROM vw_order_details');
+        $orders = DB::select('SELECT * FROM orders');
         return view('admin.dashboard.index', compact('orders'));
     }
 }

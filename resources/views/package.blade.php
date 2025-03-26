@@ -33,7 +33,7 @@
             @foreach($travelPackages as $travelPackage)
             <div class="col-lg-3" style="margin-bottom: 140px">
                 <div class="card package-card">
-                <a href="{{ route('detail', $travelPackage) }}" class="package-link">
+                <a href="{{ route('detail', $travelPackage->slug) }}" class="package-link">
                     <div class="package-wrapper-img overflow-hidden">
                     <img
                         src="{{ Storage::url($travelPackage->galleries->first()->path) }}"

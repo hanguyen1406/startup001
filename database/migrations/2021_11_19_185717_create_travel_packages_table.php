@@ -48,7 +48,7 @@ class CreateTravelPackagesTable extends Migration
             $table->foreign('travel_id')->references('id')
             ->on('travel_packages')
             ->onDelete('cascade'); // ID chuyến du lịch
-            $table->boolean('payment_status')->default(false); // Trạng thái thanh toán (pending, paid, failed)
+            $table->unsignedBigInteger('payment_status')->default(0); // Trạng thái thanh toán (pending, paid, failed)
             $table->timestamps(); // Ngày tạo và cập nhật;
             $table->unsignedBigInteger('count')->default(0); // Số lượng vé
         });
