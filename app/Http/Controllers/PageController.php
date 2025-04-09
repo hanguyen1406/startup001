@@ -12,20 +12,30 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
     public function home() : View
     {
-        $categories = Category::with('travel_packages')->get();
-        return view('home', compact('categories'));
+        $categories = Category::with(['travel_packages' => function ($query) {
+            $query->with(['galleries']);
+        }])->get();
+        // dd($categories);
         // $categories = DB::table('vw_categories_with_travel_packages')
         // ->select('category_id', 'category_name', 'slug', 'name', 'id', 'image_path', 'price')
         // ->get()
         // ->groupBy('category_id'); // Nhóm theo category_id
 
-        // return view('home', compact('categories'));
+        return view('home', compact('categories'));
     }
+
+    public function myTickets()
+    {
+        $orders = Order::with('travelPackage')->get(); // Lấy danh sách vé của user hiện tại
+        return view('my_ticket', compact('orders'));
+    }
+
 
     public function detail($slug)
     {

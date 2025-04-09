@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 @section('content')
 <main>
       <!--=============== HOME ===============-->
@@ -63,23 +67,29 @@
           </div>
         </div>
       </section>
+      <script>
+        console.log(@json($categories));
+      </script>
 
       <!--=============== Package ===============-->
       @foreach($categories as $category_id => $categoryGroup)
-      @php $category = $categoryGroup->first(); @endphp
+      @php $category = $categoryGroup; @endphp
 
       <section class="container package text-center" id="package">
-        <h2 class="section-title">{{ $category->category_name }}</h2>
+        @if($categoryGroup->travel_packages->count() != 0)
+        <h2 class="section-title">{{ $category->title }}</h2>
         <hr width="40" class="text-center" />
         <div class="row mt-5 justify-content-center">
-
-        @foreach($categoryGroup as $travelPackage)
+        @foreach($categoryGroup->travel_packages as $travelPackage)
           <div class="col-lg-3" style="margin-bottom: 140px">
             <div class="card package-card">
               <a href="{{ route('detail', $travelPackage->slug) }}" class="package-link">
                 <div class="package-wrapper-img overflow-hidden">
+                  <script>
+                    console.log("{{ Storage::url($travelPackage->galleries[0]->path) }}");
+                  </script>
                   <img
-                    src="{{ Storage::url($travelPackage->image_path) }}"
+                    src="{{ Storage::url($travelPackage->galleries[0]->path) }}"
                     class="img-fluid"
                   />
                 </div>
@@ -95,10 +105,11 @@
             </div>
           </div>
         @endforeach
+        @endif
 
         </div>
       </section>
-    @endforeach
+      @endforeach
 
 
       <!--=============== Video ===============-->

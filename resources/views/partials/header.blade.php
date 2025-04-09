@@ -1,12 +1,7 @@
     <header class="header" id="header">
       <nav class="nav container">
         <a href="{{ route('home') }}" class="nav__logo"
-          ><img
-            width="250"
-            style="height: 70px; object-fit: cover"
-            src="{{ asset('frontend/assets/images/logo-go-lombok____.png') }}"
-            alt=""
-        /></a>
+          >HÀ NỘI TOUR</a>
 
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
@@ -29,6 +24,50 @@
                 <span class="nav__name">Liên hệ</span>
               </a>
             </li>
+            @if(Auth::check())
+            <li class="nav__item dropdown">
+              <a href="#" class="dropdown-toggle" id="userDropdown" role="button">
+                  Xin chào, {{ Auth::user()->name }}!
+              </a>
+              <ul class="dropdown-menu" id="dropdownMenu">
+                  <li><a href="{{ route('my_tickets') }}">Vé của tôi</a></li>
+                  <li>
+                      <a href="{{ route('logout') }}" 
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          Đăng xuất
+                      </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                          @csrf
+                      </form>
+                  </li>
+                </ul>
+            </li>
+            @endif
+            <style>
+                .dropdown-menu {
+                    display: none;
+                    position: absolute;
+                    background: white;
+                    list-style: none;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                }
+            </style>
+
+            <script>
+                document.getElementById("userDropdown").addEventListener("click", function(event) {
+                  event.preventDefault();
+                  let menu = document.getElementById("dropdownMenu");
+                  menu.style.display = menu.style.display === "block" ? "none" : "block";
+              });
+
+              document.addEventListener("click", function(event) {
+                  let dropdown = document.getElementById("dropdownMenu");
+                  if (!event.target.closest(".dropdown")) {
+                      dropdown.style.display = "none";
+                  }
+              });
+            </script>
           </ul>
         </div>
       </nav>

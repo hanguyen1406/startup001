@@ -3,12 +3,7 @@
         <div class="row">
           <div class="col-lg-3 text-center text-sm-start mb-3">
             <a href="{{ route('home') }}">
-              <img
-                width="250"
-                style="height: 80px; object-fit: cover"
-                src="{{ asset('frontend/assets/images/logo-go-lombok____.png') }}"
-                alt=""
-              />
+              HÀ NỘI TOUR
             </a>
             <p class="title-alt mt-4">
             Bản thân công ty chúng tôi đã là một công ty rất thành công

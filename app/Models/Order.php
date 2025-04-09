@@ -15,4 +15,13 @@ class Order extends Model
         'travel_id',
         'count',
     ];
+    public function travelPackage()
+    {
+        return $this->belongsTo(TravelPackage::class, 'travel_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
 }
