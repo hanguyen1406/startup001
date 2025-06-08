@@ -3,7 +3,7 @@
         <div class="row">
           <div class="col-lg-3 text-center text-sm-start mb-3">
             <a href="{{ route('home') }}">
-              HÀ NỘI TOUR
+              VNTRAVEL
             </a>
             <p class="title-alt mt-4">
             Bản thân công ty chúng tôi đã là một công ty rất thành công

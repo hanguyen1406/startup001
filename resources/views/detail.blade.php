@@ -1,3 +1,5 @@
+@include('flatpickr::components.style')
+@include('flatpickr::components.script')
 @extends('layouts.app')
 
 @section('content')
@@ -6,7 +8,17 @@
             {{ session('message') }}
         </div>
     @endif
-
+    <style>
+      .swiper-slide-shadow-right{
+        height: 0% !important;
+      }
+      .swiper-slide-shadow-left{
+        height: 0% !important;
+      }
+      .swiper-wrapper {
+        height: fit-content !important;
+      }
+    </style>
     <main>
       <section class="container mt-5" style="margin-bottom: 70px">
         <div class="col-12 col-md">
@@ -82,15 +94,22 @@
                 <input type="text" class="mb-1 form-control" placeholder="Số điện thoại" name="phone"/>  
                 <input
                   type="number"
-                  class="form-control"
+                  class="form-control mb-1"
                   placeholder="Số lượng"
                   name="count"
                 />
-                <input
-                  type="date"
+                <x-flatpickr 
+                  name="travel_date" 
                   class="form-control"
-                  placeholder="Ngày đi"
-                  name="travel_date"/>
+                  placeholder="Ngày đi" 
+                  date-format="d/m/Y"
+                  :config="[
+                    'dateFormat' => 'Y-m-d',          // Format gửi về
+                    'altInput' => true,
+                    'altFormat' => 'd/m/Y',           // Format hiển thị cho người dùng
+                  ]"
+                />
+
               </div>
               <button
                 type="submit"
@@ -101,7 +120,6 @@
               </button>
               </div>
             </form>
-
           </div>
         </div>
       </section>

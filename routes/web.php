@@ -21,10 +21,10 @@ use App\Http\Controllers\AuthController;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\PageController::class, 'home'])->name('home');
-Route::get('paket-travel', [App\Http\Controllers\PageController::class, 'package'])->name('package');
-Route::get('detail/{travelPackage:slug}', [App\Http\Controllers\PageController::class, 'detail'])->name('detail');
-Route::post('detail/{travelPackage:slug}', [App\Http\Controllers\PageController::class, 'order'])->name('order');
+Route::get('/', [App\Http\Controllers\TravelController::class, 'home'])->name('home');
+Route::get('paket-travel', [App\Http\Controllers\TravelController::class, 'package'])->name('package');
+Route::get('detail/{travelPackage:slug}', [App\Http\Controllers\TravelController::class, 'detail'])->name('detail');
+Route::post('detail/{travelPackage:slug}', [App\Http\Controllers\TravelController::class, 'order'])->name('order');
 
 // Đăng nhập & đăng ký
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -33,10 +33,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::get('kontak-kami', [App\Http\Controllers\PageController::class, 'contact'])->name('contact');
-Route::post('kontak-kami', [App\Http\Controllers\PageController::class, 'getEmail'])->name('contact.email');
+//lien he
+Route::get('kontak-kami', [App\Http\Controllers\TravelController::class, 'contact'])->name('contact');
+Route::post('kontak-kami', [App\Http\Controllers\TravelController::class, 'getEmail'])->name('contact.email');
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/my-tickets', [App\Http\Controllers\PageController::class, 'myTickets'])->name('my_tickets');
+    Route::get('/my-tickets', [App\Http\Controllers\TravelController::class, 'myTickets'])->name('my_tickets');
+    Route::get('/payment/{id}', [App\Http\Controllers\TravelController::class, 'payment'])->name('payment');
+
 });
 
 Route::group(['middleware' => 'auth'], function() {

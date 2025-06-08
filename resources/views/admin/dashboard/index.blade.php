@@ -1,5 +1,6 @@
+@include('flatpickr::components.style')
+@include('flatpickr::components.script')
 @extends('admin.layout')
-
 @section('content')
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -55,10 +56,12 @@
                     <th>Trạng Thái Thanh Toán</th>
                     <th>Số Lượng</th>
                     <th>Ngày Đặt</th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($orders as $order)
+                
                     <tr>
                         <td>{{ $order->name }}</td>
                         <td>{{ $order->phone }}</td>
@@ -70,7 +73,10 @@
                             </select>
                         </td>
                         <td>{{ $order->count }}</td>
-                        <td>{{ $order->travel_date }}</td>
+                        <td>{{ \Carbon\Carbon::parse($order->travel_date)->format('d/m/Y') }}</td>
+                        <td>
+                            <i class="fas fa-save fa-2x text-primary"></i>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

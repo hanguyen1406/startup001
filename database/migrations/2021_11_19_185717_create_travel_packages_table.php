@@ -13,11 +13,13 @@ class CreateTravelPackagesTable extends Migration
      */
     public function up()
     {
+        // Tạo bảng categories trước vì travel_packages cần foreign key tới nó
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->timestamps();
         });
+
         Schema::create('travel_packages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -25,34 +27,35 @@ class CreateTravelPackagesTable extends Migration
             $table->string('location');
             $table->text('description');
             $table->integer('price');
-            $table->unsignedBigInteger('category_id'); // Tạo cột khóa ngoại
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')
-            ->on('categories')
-            ->onDelete('cascade');
+                ->on('categories')
+                ->onDelete('cascade');
             $table->string('slug')->nullable();
             $table->timestamps();
-
         });
+
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('travel_package_id')->constrained();
+            $table->foreignId('travel_package_id')
+                ->constrained('travel_packages')
+                ->onDelete('cascade'); // đảm bảo xóa travel_packages cũng xóa gallery
             $table->text('path');
             $table->timestamps();
         });
+
         Schema::create('orders', function (Blueprint $table) {
-            $table->id(); // ID tự tăng
-            $table->string('name'); // Tên khách hàng
-            $table->string('phone'); // Số điện thoại khách hàng
-            $table->date('travel_date'); // Ngày đi du lịch
-            $table->unsignedBigInteger('travel_id'); // Tạo cột khóa ngoại
+            $table->id();
+            $table->string('name');
+            $table->string('phone');
+            $table->date('travel_date');
+            $table->unsignedBigInteger('travel_id');
             $table->foreign('travel_id')->references('id')
-            ->on('travel_packages')
-            ->onDelete('cascade'); // ID chuyến du lịch
-            
-            
-            $table->unsignedBigInteger('payment_status')->default(0); // Trạng thái thanh toán (pending, paid, failed)
-            $table->timestamps(); // Ngày tạo và cập nhật;
-            $table->unsignedBigInteger('count')->default(0); // Số lượng vé
+                ->on('travel_packages')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('payment_status')->default(0);
+            $table->unsignedBigInteger('count')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -63,7 +66,8 @@ class CreateTravelPackagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        // Drop bảng con trước bảng cha để tránh lỗi ràng buộc
+        Schema::dropIfExists('orders');
         Schema::dropIfExists('galleries');
         Schema::dropIfExists('travel_packages');
         Schema::dropIfExists('categories');

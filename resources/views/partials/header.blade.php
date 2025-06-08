@@ -1,7 +1,7 @@
     <header class="header" id="header">
       <nav class="nav container">
         <a href="{{ route('home') }}" class="nav__logo"
-          >HÀ NỘI TOUR</a>
+          >VNTRAVEL</a>
 
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
@@ -27,22 +27,27 @@
             @if(Auth::check())
             <li class="nav__item dropdown">
               <a href="#" class="dropdown-toggle" id="userDropdown" role="button">
-                  Xin chào, {{ Auth::user()->name }}!
+                Xin chào, {{ Auth::user()->name }}!
               </a>
               <ul class="dropdown-menu" id="dropdownMenu">
+                @if(!Auth::user()->is_admin)
                   <li><a href="{{ route('my_tickets') }}">Vé của tôi</a></li>
-                  <li>
-                      <a href="{{ route('logout') }}" 
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                          Đăng xuất
-                      </a>
-                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                          @csrf
-                      </form>
-                  </li>
-                </ul>
+                @else
+                  <li><a href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
+                @endif
+                <li>
+                  <a href="{{ route('logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                      Đăng xuất
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>
+                </li>
+              </ul>
             </li>
             @endif
+
             <style>
                 .dropdown-menu {
                     display: none;
