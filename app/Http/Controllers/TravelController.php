@@ -63,18 +63,13 @@ class TravelController extends Controller
             'count' => $request->count
         ]);
 
+        
+
         return redirect()->route('detail', $travelPackage)
     ->with('message', 'Đặt vé thành công, chúng tôi sẽ liên hệ lại ngay!');
 
     }
     
-    public function payment(int $id)
-    {
-        $order = Order::findOrFail($id);
-
-        return view('payment', compact('order'));
-
-    }
 
     public function package(){
         $travelPackages = TravelPackage::with('galleries')->get();

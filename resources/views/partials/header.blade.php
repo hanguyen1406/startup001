@@ -12,7 +12,7 @@
               </a>
             </li>
             <li class="nav__item">
-              <a href="{{ route('package') }}" class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
+              <a href="{{ route('service.all', ['type' => 'travel']) }}" class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
                 <i class="bx bx-briefcase-alt nav__icon"></i>
                 <span class="nav__name">Các loại vé</span>
               </a>

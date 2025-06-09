@@ -22,9 +22,14 @@ use App\Http\Controllers\AuthController;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\TravelController::class, 'home'])->name('home');
-Route::get('paket-travel', [App\Http\Controllers\TravelController::class, 'package'])->name('package');
-Route::get('detail/{travelPackage:slug}', [App\Http\Controllers\TravelController::class, 'detail'])->name('detail');
-Route::post('detail/{travelPackage:slug}', [App\Http\Controllers\TravelController::class, 'order'])->name('order');
+Route::prefix('detail')->name('service.')->group(function () {
+    Route::get('{type}', [App\Http\Controllers\ServiceController::class, 'index'])->name('all');
+    Route::post('{type}/{id}', [App\Http\Controllers\ServiceController::class, 'order'])->name('order');
+    Route::get('{type}/{id}', [App\Http\Controllers\ServiceController::class, 'detail'])->name('detail');
+    
+});
+
+
 
 // Đăng nhập & đăng ký
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

@@ -30,10 +30,10 @@
         style="margin-top: -60px"
       >
         <div class="row mt-5 justify-content-center">
-            @foreach($travelPackages as $travelPackage)
+            @foreach($data as $travelPackage)
             <div class="col-lg-3" style="margin-bottom: 140px">
                 <div class="card package-card">
-                <a href="{{ route('detail', $travelPackage->slug) }}" class="package-link">
+                <a href="{{ route('service.detail', ['id'=>$travelPackage->id,'type'=>'travel']) }}" class="package-link">
                     <div class="package-wrapper-img overflow-hidden">
                     <img
                         src="{{ Storage::url($travelPackage->galleries->first()->path) }}"

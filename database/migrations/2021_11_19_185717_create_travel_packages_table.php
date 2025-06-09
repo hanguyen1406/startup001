@@ -27,12 +27,13 @@ class CreateTravelPackagesTable extends Migration
             $table->string('location');
             $table->text('description');
             $table->integer('price');
+            $table->json('details')->nullable(); // Thông tin chi tiết có thể lưu dưới dạng JSON
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
             $table->string('slug')->nullable();
-            $table->timestamps();
+            $table->timestamps();   
         });
 
         Schema::create('galleries', function (Blueprint $table) {

@@ -67,50 +67,7 @@
           </div>
         </div>
       </section>
-      <script>
-        console.log(@json($categories));
-      </script>
-
-      <!--=============== Package ===============-->
-      @foreach($categories as $category_id => $categoryGroup)
-      @php $category = $categoryGroup; @endphp
-
-      <section class="container package text-center" id="package">
-        @if($categoryGroup->travel_packages->count() != 0)
-        <h2 class="section-title">{{ $category->title }}</h2>
-        <hr width="40" class="text-center" />
-        <div class="row mt-5 justify-content-center">
-        @foreach($categoryGroup->travel_packages as $travelPackage)
-          <div class="col-lg-3" style="margin-bottom: 140px">
-            <div class="card package-card">
-              <a href="{{ route('detail', $travelPackage->slug) }}" class="package-link">
-                <div class="package-wrapper-img overflow-hidden">
-                  <script>
-                    console.log("{{ Storage::url($travelPackage->galleries[0]->path) }}");
-                  </script>
-                  <img
-                    src="{{ Storage::url($travelPackage->galleries[0]->path) }}"
-                    class="img-fluid"
-                  />
-                </div>
-                <div class="package-price d-flex justify-content-center">
-                  <span class="btn btn-light position-absolute package-btn">
-                    {{ number_format($travelPackage->price ?? 0) }} vnđ
-                  </span>
-                </div>
-                <h5 class="btn position-absolute w-100">
-                  {{ $travelPackage->name }}
-                </h5>
-              </a>
-            </div>
-          </div>
-        @endforeach
-        @endif
-
-        </div>
-      </section>
-      @endforeach
-
+      
 
       <!--=============== Video ===============-->
       <section class="container text-center">

@@ -33,8 +33,8 @@
         </div>
 
         <div class="col-12 col-md text-center">
-          <h1 class="main-color">{{ $travelPackage->name }}</h1>
-          <span class="title-alt">{{ $travelPackage->location }}</span>
+          <h1 class="main-color">{{ $data->name }}</h1>
+          <span class="title-alt">{{ $data->location }}</span>
         </div>
       </section>
 
@@ -43,7 +43,7 @@
         <div class="swiper mySwiper detail-container">
           <div class="swiper-wrapper">
               
-            @foreach($travelPackage->galleries as $gallery)
+            @foreach($data->galleries as $gallery)
                 <div class="detail-card swiper-slide">
                     <img
                         src="{{ Storage::url($gallery->path) }}"
@@ -59,12 +59,12 @@
         <div class="row" style="margin-top: 120px">
           <div class="col-12 col-md-12 col-lg-7 mb-5">
             <div class="card border-0 p-2">
-              <h3 class="fw-bolder title mb-4">{{ $travelPackage->name }}</h3>
-              {{ $travelPackage->description }}
+              <h3 class="fw-bolder title mb-4">{{ $data->name }}</h3>
+              {{ $data->description }}
             </div>
           </div>
           <div class="col-12 col-md-12 col-lg-5">
-            <form action="{{ route('order', $travelPackage->slug) }}" method="post">
+            <form action="{{ route('service.order', ['id'=>$data->id, 'type'=>'travel']) }}" method="post">
             @csrf  
               <div class="card bordered card-form" style="padding: 30px 40px">
                 <h4 class="text-center">Thông tin vé</h4>
@@ -73,7 +73,7 @@
                   style="background-color: #f5f5f5; border: 1px solid #f5f5f5"
                   role="alert"
                 >
-                  Thời gian : {{ $travelPackage->duration }}
+                  Thời gian : {{ $data->duration }}
                 </div>
                 <div
                   class="alert alert-secondary"
@@ -82,7 +82,7 @@
                 >
                   Giá vé :
                   <span class="text-gray-500 font-weight-light"
-                    >{{ number_format($travelPackage->price) }} vnđ</span
+                    >{{ number_format($data->price) }} vnđ</span
                   >
                 </div>
               <div class="align-items-center justify-content-around">
