@@ -1,7 +1,7 @@
     <header class="header" id="header">
       <nav class="nav container">
         <a href="{{ route('home') }}" class="nav__logo"
-          >VNTRAVEL</a>
+          >TRAVELNOW</a>
 
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
@@ -14,14 +14,19 @@
             <li class="nav__item">
               <a href="{{ route('service.all', ['type' => 'travel']) }}" class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
                 <i class="bx bx-briefcase-alt nav__icon"></i>
-                <span class="nav__name">Các loại vé</span>
+                <span class="nav__name">Chuyến đi</span>
               </a>
             </li>
-
             <li class="nav__item">
-              <a href="{{ route('contact') }}" class="nav__link {{ request()->is('contact') ? ' active-link' : '' }}"">
-                <i class="bx bx-message-square-detail nav__icon"></i>
-                <span class="nav__name">Liên hệ</span>
+              <a href="{{ route('service.all', ['type' => 'travel']) }}" class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
+                <i class="bx bx-briefcase-alt nav__icon"></i>
+                <span class="nav__name">Khuyến mãi</span>
+              </a>
+            </li>
+            <li class="nav__item">
+              <a href="{{ route('service.all', ['type' => 'travel']) }}" class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
+                <i class="bx bx-briefcase-alt nav__icon"></i>
+                <span class="nav__name">Lịch sử đặt vé</span>
               </a>
             </li>
             @if(Auth::check())
@@ -46,8 +51,25 @@
                 </li>
               </ul>
             </li>
+            @else
+              <li class="nav__item dropdown">
+              <a href="#" class="dropdown-toggle" id="userDropdown" role="button">
+                Xin chào, Hạ!
+              </a>
+              <ul class="dropdown-menu" id="dropdownMenu">
+                <li><a href="{{ route('profile') }}">Trang cá nhân</a></li>
+                <li>
+                  <a href="{{ route('logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                      Đăng xuất
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>
+                </li>
+              </ul>
+            </li>
             @endif
-
             <style>
                 .dropdown-menu {
                     display: none;

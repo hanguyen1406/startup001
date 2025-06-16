@@ -24,11 +24,13 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\TravelController::class, 'home'])->name('home');
 Route::prefix('detail')->name('service.')->group(function () {
     Route::get('{type}', [App\Http\Controllers\ServiceController::class, 'index'])->name('all');
-    Route::post('{type}/{id}', [App\Http\Controllers\ServiceController::class, 'order'])->name('order');
-    Route::get('{type}/{id}', [App\Http\Controllers\ServiceController::class, 'detail'])->name('detail');
+    // Route::post('{type}/{id}', [App\Http\Controllers\ServiceController::class, 'order'])->name('order');
     
 });
-
+Route::get('/ticket', [App\Http\Controllers\TravelController::class, 'detail'])->name('detail');
+Route::get('/order', [App\Http\Controllers\TravelController::class, 'order'])->name('order');
+Route::get('/profile', [App\Http\Controllers\TravelController::class, 'profile'])->name('profile');
+Route::get('/updateLogin', [App\Http\Controllers\TravelController::class, 'updateLogin'])->name('updateLogin');
 
 
 // Đăng nhập & đăng ký

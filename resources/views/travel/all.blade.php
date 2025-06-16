@@ -2,57 +2,208 @@
 
 @section('content')
     <main>
-      <!--=============== HOME ===============-->
-      <section
-        class="hero"
-        id="hero"
-        style="
-          background-repeat: no-repeat;
-          background-size: cover;
-          height: 50vh;
-          background-image: url('https://media.istockphoto.com/photos/tropical-beach-with-boats-and-blue-ocean-in-tropical-island-picture-id1068291116?b=1&k=20&m=1068291116&s=170667a&w=0&h=9Bsc3HJkFdNRr0ESpdMeAlfSVLX68mVrz3UY-Ye0p0s=');
-        "
-      >
-        <div
-          class="hero-content h-100 d-flex justify-content-center align-items-center flex-column"
-        >
-          <h2 class="text-center text-white display-5">Chọn vé phù hợp với bạn</h2>
-          <hr width="40" class="text-center" />
+      <style>
+    .sidebar {
+      background-color: #f5f7f7;
+      padding: 20px;
+      height: 100vh;
+    }
+
+    .filter-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .trip-card {
+      background-color: #f1f1f1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .trip-card .image {
+      background-color: #a8d0f0;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .trip-card .info {
+      padding: 10px;
+      background-color: #eaeaea;
+    }
+  </style>
+      <div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar: Bộ lọc -->
+    <div class="col-md-3 sidebar">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="filter-title">
+          <img src="https://img.icons8.com/emoji/24/000000/magnifying-glass-tilted-left-emoji.png" />
+          Lọc nâng cao
         </div>
-      </section>
+        <button class="btn btn-outline-dark btn-sm">Xóa lọc</button>
+      </div>
 
-      <!--=============== Package Travel ===============-->
+      <form>
+        <div class="mb-2">
+          <label class="form-label">Điểm khởi hành</label>
+          <input type="text" class="form-control" placeholder="VD: Hà Nội">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Điểm đến</label>
+          <input type="text" class="form-control" placeholder="VD: Đà Lạt">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Ngày khởi hành</label>
+          <input type="date" class="form-control">
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Loại hình du lịch</label>
+          <select class="form-select">
+            <option>Du lịch nghỉ dưỡng</option>
+            <option>Du lịch khám phá</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Phương tiện</label>
+          <select class="form-select">
+            <option>Xe khách</option>
+            <option>Máy bay</option>
+            <option>Tàu hỏa</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mức giá</label>
+          <input type="number" class="form-control" placeholder="VNĐ">
+        </div>
+        <button type="submit" class="btn btn-success w-100">Áp dụng</button>
+      </form>
+    </div>
 
-      
-      <section
-        class="container package text-center"
-        id="package"
-        style="margin-top: -60px"
-      >
-        <div class="row mt-5 justify-content-center">
-            @foreach($data as $travelPackage)
-            <div class="col-lg-3" style="margin-bottom: 140px">
-                <div class="card package-card">
-                <a href="{{ route('service.detail', ['id'=>$travelPackage->id,'type'=>'travel']) }}" class="package-link">
-                    <div class="package-wrapper-img overflow-hidden">
-                    <img
-                        src="{{ Storage::url($travelPackage->galleries->first()->path) }}"
-                        class="img-fluid"
-                    />
-                    </div>
-                    <div class="package-price d-flex justify-content-center">
-                    <span class="btn btn-light position-absolute package-btn">
-                        {{ $travelPackage->price }} vnđ
-                    </span>
-                    </div>
-                    <h5 class="btn position-absolute w-100">
-                    {{ $travelPackage->name }}
-                    </h5>
-                </a>
-                </div>
+    <!-- Main content: Kết quả -->
+    <div class="col-md-9 py-4">
+      <!-- Thanh tìm kiếm -->
+      <div class="input-group mb-4">
+        <input type="text" class="form-control" placeholder="Tìm kiếm chuyến đi...">
+        <button class="btn btn-outline-secondary" type="button">Tìm kiếm</button>
+      </div>
+
+      <!-- Danh sách các chuyến đi -->
+      <div class="row g-3">
+        <!-- Card 1 -->
+        <div class="col-md-3 col-sm-6">
+          <div onclick="window.location.href='/ticket'" class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 3.000.000 VNĐ</div>
+              <div>Ưu đãi: -20%</div>
             </div>
-            @endforeach
+          </div>
         </div>
-      </section>
+
+        <!-- Copy thêm nhiều card tùy thích -->
+        <!-- Card 2, Card 3, v.v -->
+        <!-- Dưới đây là ví dụ copy lại -->
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="trip-card">
+            <div class="image">Ảnh</div>
+            <div class="info">
+              <div><strong>Tên chuyến đi</strong></div>
+              <div>Đánh giá: ★★★★☆</div>
+              <div>Giá: 2.500.000 VNĐ</div>
+              <div>Ưu đãi: -15%</div>
+            </div>
+          </div>
+        </div>
+        <!-- ... thêm bao nhiêu card tùy bạn -->
+      </div>
+    </div>
+
+  </div>
+</div>
     </main>
 @endsection

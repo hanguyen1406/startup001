@@ -32,44 +32,29 @@ class TravelController extends Controller
     }
 
 
-    public function detail($slug)
+    public function detail()
     {
-        $travelPackage = TravelPackage::where('slug', $slug)->first();
+        // $travelPackage = TravelPackage::where('slug', $slug)->first();
 
-        if (!$travelPackage) {
-            abort(404, 'Travel Package not found');
-        }
+        // if (!$travelPackage) {
+        //     abort(404, 'Travel Package not found');
+        // }
 
-        return view('detail', compact('travelPackage'));
+        return view('travel.detail');
     }
-
-    public function order(TravelPackage $travelPackage, Request $request)
+    public function profile()
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'travel_date' => 'required|date',
-            'count' => 'required|integer|min:1',
-        ]);
-    
-        if ($validator->fails()) {
-            return redirect()->back()->with('message', 'Điền thiếu thông tin hoặc thông tin không hợp lệ');
-        }
-        $order = Order::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'travel_date' => $request->travel_date,
-            'travel_id' => $travelPackage->id,
-            'count' => $request->count
-        ]);
 
-        
-
-        return redirect()->route('detail', $travelPackage)
-    ->with('message', 'Đặt vé thành công, chúng tôi sẽ liên hệ lại ngay!');
-
+        return view('profile');
     }
-    
+    public function order()
+    {
+        return view('travel.order');
+    }
+    public function updateLogin()
+    {
+        return view('updateLogin');
+    }
 
     public function package(){
         $travelPackages = TravelPackage::with('galleries')->get();

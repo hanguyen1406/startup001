@@ -20,168 +20,40 @@
       }
     </style>
     <main>
-      <section class="container mt-5" style="margin-bottom: 70px">
-        <div class="col-12 col-md">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a class="title-alt" href="{{ route('home') }}">Trang chủ</a>
-              </li>
-              <li class="breadcrumb-item main-color">Thông tin vé</li>
-            </ol>
-          </nav>
-        </div>
+      <div class="container my-4">
+  <div class="row">
+    <!-- Hình ảnh và lịch trình -->
+    <div class="col-md-8">
+      <img src="https://media.istockphoto.com/id/478073811/vi/anh/l%E1%BB%91i-v%C3%A0o-%C4%91%E1%BA%B9p-t%E1%BA%A1i-v%C4%83n-mi%E1%BA%BFu-qu%E1%BB%91c-t%E1%BB%AD-gi%C3%A1m.jpg?s=612x612&w=0&k=20&c=FXgEWvQQLlDi9iP8tacv4_QbnjyaAGWlT2Pij_awKTc=" class="tour-image" alt="Văn Miếu Quốc Tử Giám">
 
-        <div class="col-12 col-md text-center">
-          <h1 class="main-color">{{ $data->name }}</h1>
-          <span class="title-alt">{{ $data->location }}</span>
-        </div>
-      </section>
+      <h4 class="tour-title">Văn miếu Quốc Tử Giám</h4>
 
-      <!--=============== Package Travel ===============-->
-      <section class="container detail">
-        <div class="swiper mySwiper detail-container">
-          <div class="swiper-wrapper">
-              
-            @foreach($data->galleries as $gallery)
-                <div class="detail-card swiper-slide">
-                    <img
-                        src="{{ Storage::url($gallery->path) }}"
-                        alt=""
-                        class="detail-img"
-                    />
-                </div>
-            @endforeach
+      <h6><strong>📝 Lịch trình chi tiết</strong></h6>
+      <ul class="mb-4">
+        <li class="schedule-day"><strong>Ngày 1:</strong> Khởi hành từ TP.HCM → Đến Đà Lạt → Tham quan Thung lũng Tình yêu</li>
+        <li class="schedule-day"><strong>Ngày 2:</strong> Dạo quanh hồ Xuân Hương → Tham quan Dinh Bảo Đại → Vườn hoa thành phố</li>
+        <li class="schedule-day"><strong>Ngày 3:</strong> Mua sắm đặc sản → Trả phòng → Khởi hành về TP.HCM</li>
+      </ul>
 
-          </div>
-        </div>
+      <button onclick="window.location.href='/order'" class="btn btn-book me-3">✅ Đặt ngay</button>
+      <a href="/detail/travel" class="btn-back">← Quay lại danh sách chuyến đi</a>
+    </div>
 
-        <div class="row" style="margin-top: 120px">
-          <div class="col-12 col-md-12 col-lg-7 mb-5">
-            <div class="card border-0 p-2">
-              <h3 class="fw-bolder title mb-4">{{ $data->name }}</h3>
-              {{ $data->description }}
-            </div>
-          </div>
-          <div class="col-12 col-md-12 col-lg-5">
-            <form action="{{ route('service.order', ['id'=>$data->id, 'type'=>'travel']) }}" method="post">
-            @csrf  
-              <div class="card bordered card-form" style="padding: 30px 40px">
-                <h4 class="text-center">Thông tin vé</h4>
-                <div
-                  class="alert alert-secondary"
-                  style="background-color: #f5f5f5; border: 1px solid #f5f5f5"
-                  role="alert"
-                >
-                  Thời gian : {{ $data->duration }}
-                </div>
-                <div
-                  class="alert alert-secondary"
-                  style="background-color: #f5f5f5; border: 1px solid #f5f5f5"
-                  role="alert"
-                >
-                  Giá vé :
-                  <span class="text-gray-500 font-weight-light"
-                    >{{ number_format($data->price) }} vnđ</span
-                  >
-                </div>
-              <div class="align-items-center justify-content-around">
-                <input
-                  type="text"
-                  class="form-control mb-1"
-                  placeholder="Họ và tên"
-                  name="name"/>
-                <input type="text" class="mb-1 form-control" placeholder="Số điện thoại" name="phone"/>  
-                <input
-                  type="number"
-                  class="form-control mb-1"
-                  placeholder="Số lượng"
-                  name="count"
-                />
-                <x-flatpickr 
-                  name="travel_date" 
-                  class="form-control"
-                  placeholder="Ngày đi" 
-                  date-format="d/m/Y"
-                  :config="[
-                    'dateFormat' => 'Y-m-d',          // Format gửi về
-                    'altInput' => true,
-                    'altFormat' => 'd/m/Y',           // Format hiển thị cho người dùng
-                  ]"
-                />
-
-              </div>
-              <button
-                type="submit"
-                class="btn btn-book btn-block mt-3"
-                onclick="return confirm('Chắc chắn đặt vé này?')"
-              >
-                Đặt vé ngay
-              </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+    <!-- Thông tin chung -->
+    <div class="col-md-4">
+      <div class="info-box">
+        <h6><strong>🧳 Thông tin chung</strong></h6>
+        <p><strong>Điểm đến:</strong> Đà Lạt</p>
+        <p><strong>Ngày khởi hành:</strong> 15/06/2025</p>
+        <p><strong>Thời gian:</strong> 3 ngày 2 đêm</p>
+        <p><strong>Phương tiện:</strong> Xe giường nằm</p>
+        <p><strong>Loại hình:</strong> Tour nghỉ dưỡng</p>
+        <p><strong>Giá:</strong> 3.200.000đ/người</p>
+      </div>
+    </div>
+  </div>
+</div>
     </main>
 @endsection
 
-@push('style-alt')
-    <link rel="stylesheet" href="{{ asset('frontend/assets/libraries/swipper/css/style.css') }}">
-    <style>
-        .swiper-container-3d .swiper-slide-shadow-left,
-        .swiper-container-3d .swiper-slide-shadow-right {
-        background-image: none;
-      }
-      figure{
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      figure table {
-        --bs-table-bg: transparent;
-        --bs-table-accent-bg: transparent;
-        --bs-table-striped-color: #212529;
-        --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
-        --bs-table-active-color: #212529;
-        --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-        --bs-table-hover-color: #212529;
-        --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #212529;
-        vertical-align: top;
-        border-color: #dee2e6;
-      }
 
-      tbody, td, tfoot, th, thead, tr {
-        border-color: inherit;
-        border-style: solid;
-      }
-      table>:not(caption)>*>*{
-        border: 1px solid #dee2e6;
-      }
-      table>:not(caption)>*>* {
-        padding: 0.5rem 0.5rem;
-        background-color: transparent;
-        border-bottom-width: 1px;
-        box-shadow: inset 0 0 0 9999px transparent;
-      }
-    </style>
-@endpush
-
-@push('script-alt')
-    <script src="{{ asset('frontend/assets/libraries/swipper/js/app.js') }}"></script>
-     <script>
-      var swiper = new Swiper(".mySwiper", {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: "auto",
-        loop: true,
-        spaceBetween: 32,
-        coverflowEffect: {
-          rotate: 0,
-        },
-      });
-    </script>
-@endpush
