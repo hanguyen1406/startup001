@@ -11,8 +11,12 @@ use App\Models\Order;
 class DashboardController extends Controller
 {
     public function index(){
-        $orders = Order::with('travelPackage')->get();
+        // $orders = Order::with('travelPackage')->get();
         // dd($orders);
-        return view('admin.dashboard.index', compact('orders'));
+        return view('admin.dashboard.index');
     }
+    public function usermanager(){
+        return view('admin.usermanager.index');
+    }
+    
 }

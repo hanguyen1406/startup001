@@ -34,18 +34,31 @@ class TravelController extends Controller
 
     public function detail()
     {
-        // $travelPackage = TravelPackage::where('slug', $slug)->first();
-
-        // if (!$travelPackage) {
-        //     abort(404, 'Travel Package not found');
-        // }
 
         return view('travel.detail');
+    }
+    public function forget()
+    {
+
+        return view('forget');
+    }
+    public function reset()
+    {
+
+        return view('reset');
+    }
+    public function history()
+    {
+        return view('history');
     }
     public function profile()
     {
 
         return view('profile');
+    }
+    public function ticketbooked()
+    {
+        return view('ticketbooked');
     }
     public function order()
     {

@@ -15,9 +15,9 @@ class TravelPackageController extends Controller
 
     public function index() : View
     {
-        $travelPackages = TravelPackage::get();
+        // $travelPackages = TravelPackage::get();
 
-        return view('admin.travel-packages.index', compact('travelPackages'));
+        return view('admin.travel-packages.index');
     }
 
     public function create(): View
@@ -35,11 +35,11 @@ class TravelPackageController extends Controller
         return redirect()->route('admin.travel-packages.index')->with('message', 'Added Successfully !');
     }
 
-    public function edit(TravelPackage $travelPackage): View
+    public function edit(): View
     {
-        $categories = Category::get();
+        // $categories = Category::get();
 
-        return view('admin.travel-packages.edit', compact('travelPackage', 'categories'));
+        return view('admin.travel-packages.edit');
     }
 
     public function update(StoreTravelPackageRequest $request, TravelPackage $travelPackage): RedirectResponse

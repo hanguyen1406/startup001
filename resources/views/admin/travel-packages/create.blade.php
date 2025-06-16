@@ -2,62 +2,93 @@
 
 @section('content')
 <div class="container-fluid">
+    <h2 style="font-weight: bold;">Thêm chuyến đi mới</h2>
+    <form action="{{ route('admin.travel-packages.store') }}" method="POST">
+        @csrf
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Thêm mới vé</h1>
-    </div>
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1;">
+                <label>ID</label>
+                <input type="text" class="form-control" value="Tự động" disabled>
+            </div>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-<!-- Content Row -->
-        <div class="card shadow">
-            <div class="card-body">
-                <form action="{{ route('admin.travel-packages.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="name">Category Travel</label>
-                        <select name="category_id" class="form-control" >
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="duration">Duration</label>
-                        <input type="text" class="form-control" id="duration" name="duration" value="{{ old('duration') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" rows="5" class="d-block w-100 form-control">{{ old('description') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}" />
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Xác nhận</button>
-                </form>
+            <div style="flex: 1;">
+                <label>Tên chuyến đi</label>
+                <input type="text" name="title" class="form-control" placeholder="Nhập tên chuyến đi">
             </div>
         </div>
-    
 
-    <!-- Content Row -->
+        <div style="display: flex; gap: 20px; margin-top: 10px;">
+            <div style="flex: 1;">
+                <label>Điểm khởi hành</label>
+                <input type="text" name="departure" class="form-control" placeholder="Nhập điểm khởi hành">
+            </div>
+            <div style="flex: 1;">
+                <label>Điểm đến</label>
+                <input type="text" name="destination" class="form-control" placeholder="Nhập điểm đến">
+            </div>
+        </div>
 
+        <div style="margin-top: 10px;">
+            <label>Ngày khởi hành</label>
+            <input type="date" name="departure_date" class="form-control">
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label>Giá tiền (VND)</label>
+            <input type="number" name="price" class="form-control" placeholder="Nhập mức giá">
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label>Loại hình du lịch</label>
+            <select name="category" class="form-control">
+                <option value="">Chọn loại hình du lịch</option>
+                <option value="nghiduong">Nghỉ dưỡng</option>
+                <option value="trongoi">Trọn gói</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label>Phương tiện di chuyển</label>
+            <select name="transportation" class="form-control">
+                <option value="">Chọn loại phương tiện</option>
+                <option value="maybay">Máy bay</option>
+                <option value="tauhoa">Tàu hỏa</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <label>Mô tả</label>
+            <textarea name="description" class="form-control" placeholder="Nhập mô tả" rows="3"></textarea>
+        </div>
+
+        <button onclick="confirmSubmit(event)" type="submit" style="margin-top: 20px; background-color: #0000FF; color: white; padding: 10px 20px; border: none;">
+            Lưu chuyến đi
+        </button>
+    </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmSubmit(event) {
+        event.preventDefault(); // Ngăn chặn gửi form ngay lập tức
+
+        Swal.fire({
+        icon: 'success',
+        text: 'Thêm mới chuyến đi thành công.',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'rounded',
+            confirmButton: 'btn btn-primary mx-auto'
+        },
+        buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('admin.travel-packages.index') }}"; // Chuyển hướng đến trang danh sách chuyến đi
+            }
+        });
+    }
+</script>
+
 @endsection
+

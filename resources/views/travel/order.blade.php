@@ -20,10 +20,16 @@
     }
 
     .btn-submit {
-      background-color: #fbb;
+      background-color: #ff6699; /* màu hồng */
       font-weight: bold;
       width: 100%;
+      font-size: 18px;
+      padding: 12px;
+      border: none;
+      color: white;
+      border-radius:30px;
     }
+
 
     .image-box img {
       width: 100%;
@@ -42,6 +48,7 @@
     .form-control:disabled {
       background-color: #f8f8f8;
     }
+    
   </style>
   <div class="row">
     <!-- Hình ảnh -->
@@ -70,7 +77,7 @@
         </div>
 
         <div class="mb-3">
-          <input type="text" class="form-control" placeholder="Số điện thoại">
+          <input id="phone" type="text" class="form-control" placeholder="Số điện thoại" value="">
         </div>
 
         <div class="mb-3">
@@ -89,11 +96,30 @@
           </select>
         </div>
 
-        <button onclick="showSuccessAlert()" class="btn btn-success">
+        <button onclick="submitForm()" class="btn btn-submit btn-success">
         Đặt vé ngay
         </button>
 
         <script>
+        function submitForm() {
+          //kiểm tra trường số điện thoại đã có dữ liệu chưa
+          const phone = document.getElementById('phone').value;
+          //chưa thì thay đổi placeholder và chữ màu đỏ
+          if (phone === '') {
+            document.getElementById('phone').placeholder = 'Vui lòng nhập số điện thoại';
+            const style = document.createElement('style');
+            style.innerHTML = `
+              #phone::placeholder {
+                color: red;
+              }
+            `;
+            document.head.appendChild(style);
+            return;
+          } else {
+            //nếu có thì hiển thị thông báo thành công
+            showSuccessAlert();
+          }
+        }
         function showSuccessAlert() {
             Swal.fire({
             icon: 'success',

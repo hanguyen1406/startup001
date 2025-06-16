@@ -31,6 +31,12 @@ Route::get('/ticket', [App\Http\Controllers\TravelController::class, 'detail'])-
 Route::get('/order', [App\Http\Controllers\TravelController::class, 'order'])->name('order');
 Route::get('/profile', [App\Http\Controllers\TravelController::class, 'profile'])->name('profile');
 Route::get('/updateLogin', [App\Http\Controllers\TravelController::class, 'updateLogin'])->name('updateLogin');
+Route::get('/forget', [App\Http\Controllers\TravelController::class, 'forget'])->name('forget');
+Route::get('/reset', [App\Http\Controllers\TravelController::class, 'reset'])->name('reset');
+Route::get('/history', [App\Http\Controllers\TravelController::class, 'history'])->name('history');
+Route::get('/ticketbooked', [App\Http\Controllers\TravelController::class, 'ticketbooked'])->name('ticketbooked');
+
+
 
 
 // Đăng nhập & đăng ký
@@ -52,11 +58,18 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'auth'], function() {
     Route::group(['middleware' => 'isAdmin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::get('usermanager', [App\Http\Controllers\Admin\DashboardController::class, 'usermanager'])->name('usermanager');
+
+        // Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('travel-packages', \App\Http\Controllers\Admin\TravelPackageController::class);
-        Route::resource('travel-packages.galleries', \App\Http\Controllers\Admin\GalleryController::class);
+        Route::resource('promotion', \App\Http\Controllers\Admin\PromotionController::class);
+        // Route::resource('travel-packages.galleries', \App\Http\Controllers\Admin\GalleryController::class);
         Route::post('/admin/orders/{id}/update-status', [OrderController::class, 'updateStatus']);
-        
+
+        Route::resource('support', \App\Http\Controllers\Admin\SupportController::class);
+
+        Route::resource('security', \App\Http\Controllers\Admin\SecurityController::class);
+        Route::resource('payment', \App\Http\Controllers\Admin\PaymentController::class);
     });
     
 });

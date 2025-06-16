@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Models\Post;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\StorePostRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class PromotionController extends Controller
+{
+    public function index(): View
+    {
+        return view('admin.promotion.index');
+    }
+
+    public function create(): View
+    {
+        return view('admin.promotion.create');
+    }
+    public function edit(): View
+    {
+        return view('admin.promotion.edit');
+    }
+    
+   
+}
