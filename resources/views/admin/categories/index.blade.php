@@ -5,7 +5,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Thể loại vé</h1>
+        <h1 class="h3 mb-0 text-gray-800">Thể loại vé du lịch</h1>
             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm shadow-sm">Thêm mới <i class="fa fa-plus"> </i></a>
     </div>
 

@@ -60,10 +60,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::get('usermanager', [App\Http\Controllers\Admin\DashboardController::class, 'usermanager'])->name('usermanager');
 
-        // Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('travel-packages', \App\Http\Controllers\Admin\TravelPackageController::class);
         Route::resource('promotion', \App\Http\Controllers\Admin\PromotionController::class);
-        // Route::resource('travel-packages.galleries', \App\Http\Controllers\Admin\GalleryController::class);
+        // Route::resource('galleries', \App\Http\Controllers\Admin\GalleryController::class);
         Route::post('/admin/orders/{id}/update-status', [OrderController::class, 'updateStatus']);
 
         Route::resource('support', \App\Http\Controllers\Admin\SupportController::class);

@@ -31,7 +31,12 @@
             <span class="ms-2">Quản lí chuyến đi</span>
         </a>
     </li>
-
+     <li class="nav-item">
+        <a class="nav-link text-white" href="{{ route('admin.categories.index') }}">
+            <i class="fas fa-ticket-alt"></i>
+            <span class="ms-2">Quản lí thể loại du lịch</span>
+        </a>
+    </li>
     <!-- Khuyến mãi -->
     <li class="nav-item">
         <a class="nav-link text-white" href="{{ route('admin.promotion.index') }}">
