@@ -9,19 +9,28 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
+        'travel_id',
         'name',
         'phone',
         'travel_date',
-        'travel_id',
-        'count',
+        'total_price',
+        'status',
     ];
+
     public function travelPackage()
     {
         return $this->belongsTo(TravelPackage::class, 'travel_id');
     }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 }

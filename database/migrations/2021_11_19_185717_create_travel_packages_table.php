@@ -33,7 +33,7 @@ class CreateTravelPackagesTable extends Migration
                 ->on('categories')
                 ->onDelete('cascade');
             $table->string('slug')->nullable();
-            $table->timestamps();   
+            $table->timestamps();
         });
 
         Schema::create('galleries', function (Blueprint $table) {
@@ -54,8 +54,24 @@ class CreateTravelPackagesTable extends Migration
             $table->foreign('travel_id')->references('id')
                 ->on('travel_packages')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('payment_status')->default(0);
-            $table->unsignedBigInteger('count')->default(0);
+
+            // Thêm user_id nối với bảng users
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->integer('total_price')->default(0); // Đổi count/status thành total cho hợp lý hơn hoặc giữ nguyên tùy logic cũ, nhưng user y/c thêm user_id
+            $table->string('status')->default('pending'); // Trạng thái đơn hàng
+            $table->timestamps();
+        });
+
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->decimal('amount', 15, 2);
+            $table->string('status')->default('pending'); // pending, success, failed
+            $table->string('type')->nullable(); // bank_transfer, credit_card, cash
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
@@ -68,6 +84,7 @@ class CreateTravelPackagesTable extends Migration
     public function down()
     {
         // Drop bảng con trước bảng cha để tránh lỗi ràng buộc
+        Schema::dropIfExists('payments');
         Schema::dropIfExists('orders');
         Schema::dropIfExists('galleries');
         Schema::dropIfExists('travel_packages');
