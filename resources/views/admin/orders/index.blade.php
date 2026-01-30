@@ -1,0 +1,90 @@
+@extends('admin.layout')
+
+@section('content')
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Quản lý Đơn hàng</h3>
+                </div>
+            </div>
+        </div>
+
+        @if(session('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-stripped table-hover datatable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Khách hàng</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Tour</th>
+                                        <th>Ngày đi</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($orders as $order)
+                                        <tr>
+                                            <td>#{{ $order->id }}</td>
+                                            <td style="font-size: 0.85rem;">
+                                                <div>
+                                                    <a href="#" style="color: inherit;"><strong>{{ $order->name }}</strong></a>
+                                                </div>
+                                            </td>
+                                            <td>{{ $order->phone }}</td>
+                                            <td>{{ $order->travelPackage->name ?? 'N/A' }}</td>
+                                            <td>{{ $order->travel_date }}</td>
+                                            <td>{{ number_format($order->total_price) }} VND</td>
+                                            <td>
+                                                @if($order->status == 'pending')
+                                                    <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                                                @elseif($order->status == 'confirmed')
+                                                    <span class="badge bg-success">Đã duyệt</span>
+                                                @elseif($order->status == 'cancelled')
+                                                    <span class="badge bg-danger">Đã hủy</span>
+                                                @else
+                                                    <span class="badge bg-info">{{ $order->status }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-end">
+                                                <form action="{{ route('admin.orders.update_status', $order->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="confirmed">
+                                                    <button type="submit" class="btn btn-sm btn-success" {{ $order->status == 'confirmed' ? 'disabled' : '' }}>
+                                                        <i class="fas fa-check"></i> Duyệt
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('admin.orders.update_status', $order->id) }}"
+                                                    method="POST" class="d-inline ms-1">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="cancelled">
+                                                    <button type="submit" class="btn btn-sm btn-danger" {{ $order->status == 'cancelled' ? 'disabled' : '' }}>
+                                                        <i class="fas fa-times"></i> Hủy
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

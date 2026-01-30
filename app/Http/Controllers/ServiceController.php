@@ -18,16 +18,21 @@ class ServiceController extends Controller
         if (!$serviceHandler) {
             abort(404, 'Loại dịch vụ không tồn tại.');
         }
-        
-        $data = $serviceHandler->getViewData();
-        // dd($data);
+
+        $data = $serviceHandler->getViewData(request()->all());
+        //dd(request()->all());
 
         // if (!$data) {
         //     abort(404, 'Dịch vụ không tìm thấy.');
         // }
 
         // Trả về view phù hợp dựa trên loại dịch vụ và dữ liệu
-        
+
+        if ($type == 'travel') {
+            $categories = Category::all();
+            return view("{$type}.all", compact('data', 'categories'));
+        }
+
         return view("{$type}.all", compact('data'));
     }
 
@@ -68,7 +73,7 @@ class ServiceController extends Controller
 
         $serviceHandler->order($request, $id);
 
-        return redirect()->route('service.detail', ['type'=>$type, 'id' => $id])->with('message', 'Thêm dịch vụ thành công!');
+        return redirect()->route('service.detail', ['type' => $type, 'id' => $id])->with('message', 'Thêm dịch vụ thành công!');
     }
 
     /**
@@ -131,5 +136,5 @@ class ServiceController extends Controller
     /**
      * Trả về các quy tắc validation dựa trên loại dịch vụ.
      */
-    
+
 }

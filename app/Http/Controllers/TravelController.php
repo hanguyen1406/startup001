@@ -16,20 +16,18 @@ use Illuminate\Support\Facades\Auth;
 
 class TravelController extends Controller
 {
-    public function home() : View
+    public function home(): View
     {
-        $categories = Category::with(['travel_packages' => function ($query) {
-            $query->with(['galleries']);
-        }])->get();
+        $categories = Category::with([
+            'travel_packages' => function ($query) {
+                $query->with(['galleries']);
+            }
+        ])->get();
 
         return view('home', compact('categories'));
     }
 
-    public function myTickets()
-    {
-        $orders = Order::with('travelPackage')->get(); // Lấy danh sách vé của user hiện tại
-        return view('my_ticket', compact('orders'));
-    }
+
 
 
     public function detail()
@@ -49,7 +47,11 @@ class TravelController extends Controller
     }
     public function history()
     {
-        return view('history');
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $orders = Order::where('user_id', Auth::id())->with('travelPackage')->latest()->get();
+        return view('history', compact('orders'));
     }
     public function profile()
     {
@@ -60,26 +62,69 @@ class TravelController extends Controller
     {
         return view('ticketbooked');
     }
-    public function order()
+    public function order(Request $request)
     {
-        return view('travel.order');
+        // Nếu có ID tour truyền vào thì lấy thông tin tour
+        $travelPackage = null;
+        if ($request->has('id')) {
+            $travelPackage = TravelPackage::with('galleries')->find($request->id);
+        }
+        return view('travel.order', compact('travelPackage'));
+    }
+
+    public function storeOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'travel_date' => 'required|date',
+            'travel_id' => 'required|exists:travel_packages,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('message', 'Vui lòng kiểm tra lại thông tin!');
+        }
+
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('message', 'Vui lòng đăng nhập để đặt vé!');
+        }
+
+        $travel = TravelPackage::find($request->travel_id);
+        $totalPrice = $travel->price * $request->quantity;
+
+        Order::create([
+            'user_id' => Auth::id(),
+            'travel_id' => $request->travel_id,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'travel_date' => $request->travel_date,
+            'total_price' => $totalPrice, // Lưu tổng tiền
+            'status' => 'pending',
+            'count' => $request->quantity,
+        ]);
+
+        return redirect()->route('history')->with('message', 'Đặt vé thành công! Vui lòng chờ xác nhận.');
     }
     public function updateLogin()
     {
         return view('updateLogin');
     }
 
-    public function package(){
+    public function package()
+    {
         $travelPackages = TravelPackage::with('galleries')->get();
 
         return view('package', compact('travelPackages'));
     }
 
-    public function contact(){
+    public function contact()
+    {
         return view('contact');
     }
 
-    public function getEmail(StoreEmailRequest $request){
+    public function getEmail(StoreEmailRequest $request)
+    {
         $detail = [
             'name' => $request->name,
             'email' => $request->email,

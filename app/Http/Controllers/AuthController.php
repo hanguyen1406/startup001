@@ -32,9 +32,9 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // Kiểm tra role và chuyển hướng
-            if ($user->role === 'admin') {
+            if ($user->is_admin) {
                 return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập với quyền Admin!');
-            } 
+            }
 
             return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
         }
@@ -78,9 +78,9 @@ class AuthController extends Controller
         Auth::login($user);
 
         // Chuyển hướng dựa trên role
-        if ($user->role === 'admin') {
+        if ($user->is_admin) {
             return redirect()->route('admin.dashboard')->with('success', 'Đăng ký thành công với quyền Admin!');
-        } 
+        }
 
         return redirect()->route('home')->with('success', 'Đăng ký thành công!');
     }

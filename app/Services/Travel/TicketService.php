@@ -21,28 +21,52 @@ class TicketService implements TravelInterface
         $this->ticketCategoryId = Category::firstOrCreate(['title' => 'Ticket'])->id;
     }
 
-    public function getViewData(?int $id = null)
+    public function getViewData(array $filters = [])
     {
-        $data = TravelPackage::with('galleries')->get();
-        return $data;
+        $query = TravelPackage::with('galleries');
+
+        if (!empty($filters['keyword'])) {
+            $query->where('name', 'like', '%' . $filters['keyword'] . '%');
+        }
+
+        if (!empty($filters['location'])) {
+            $query->where('location', 'like', '%' . $filters['location'] . '%');
+        }
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        // Filter price <= input
+        if (!empty($filters['price'])) {
+            // Remove commas and ensure numeric
+            $price = (float) str_replace(',', '', $filters['price']);
+            if ($price > 0) {
+                $query->where('price', '<=', $price);
+            }
+        }
+
+        return $query->get();
     }
-    public function detail(int $id) {
+    public function detail(int $id)
+    {
         $travelPackage = TravelPackage::where('id', $id)->first();
         if (!$travelPackage) {
             abort(404, 'Travel Package not found');
         }
-        
+
         // dd($travelPackage);
         return $travelPackage;
     }
-    public function order(Request $request, int $id){
+    public function order(Request $request, int $id)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'travel_date' => 'required|date',
             'count' => 'required|integer|min:1',
         ]);
-    
+
         if ($validator->fails()) {
             return false;
         }
@@ -74,7 +98,7 @@ class TicketService implements TravelInterface
             ];
             // $package = TravelPackage::create($packageData);
 
-            $slug = Str::slug($data['name']);        
+            $slug = Str::slug($data['name']);
             TravelPackage::create($request->validated() + ["slug" => $slug]);
 
             // $this->handleGalleries($package, $data);

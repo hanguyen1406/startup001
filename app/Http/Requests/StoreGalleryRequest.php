@@ -23,6 +23,13 @@ class StoreGalleryRequest extends FormRequest
      */
     public function rules()
     {
+        if (is_array($this->file('path'))) {
+            return [
+                'path' => 'required',
+                'path.*' => 'image',
+            ];
+        }
+
         return [
             'path' => "required|image"
         ];

@@ -1,140 +1,133 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (session('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-<div class="container my-4">
-     <style>
-    .form-section {
-      background-color: #ffe6e6;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    .form-section h5 {
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .btn-submit {
-      background-color: #ff6699; /* màu hồng */
-      font-weight: bold;
-      width: 100%;
-      font-size: 18px;
-      padding: 12px;
-      border: none;
-      color: white;
-      border-radius:30px;
-    }
-
-
-    .image-box img {
-      width: 100%;
-      border-radius: 8px;
-      max-height: 300px;
-      object-fit: cover;
-    }
-
-    .image-caption {
-      text-align: center;
-      background: #eee;
-      padding: 10px;
-      font-weight: 500;
-    }
-
-    .form-control:disabled {
-      background-color: #f8f8f8;
-    }
-    
-  </style>
-  <div class="row">
-    <!-- Hình ảnh -->
-    <div class="col-md-7 image-box">
-      <img src="https://media.istockphoto.com/id/478073811/vi/anh/l%E1%BB%91i-v%C3%A0o-%C4%91%E1%BA%B9p-t%E1%BA%A1i-v%C4%83n-mi%E1%BA%BFu-qu%E1%BB%91c-t%E1%BB%AD-gi%C3%A1m.jpg?s=612x612&w=0&k=20&c=FXgEWvQQLlDi9iP8tacv4_QbnjyaAGWlT2Pij_awKTc=">
-      <div class="image-caption">Văn miếu Quốc Tử Giám</div>
+  @if (session('message'))
+    <div class="alert alert-success">
+      {{ session('message') }}
     </div>
+  @endif
+  <div class="container my-4">
+    <style>
+      .form-section {
+        background-color: #ffe6e6;
+        padding: 20px;
+        border-radius: 10px;
+      }
 
-    <!-- Form thông tin vé -->
-    <div class="col-md-5">
-      <div class="form-section">
-        <h5>🧾 Thông tin vé</h5>
+      .form-section h5 {
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
 
-        <div class="mb-3">
-          <label class="form-label">Thời gian:</label>
-          <input type="text" class="form-control" value="3h" disabled>
+      .btn-submit {
+        background-color: #ff6699;
+        /* màu hồng */
+        font-weight: bold;
+        width: 100%;
+        font-size: 18px;
+        padding: 12px;
+        border: none;
+        color: white;
+        border-radius: 30px;
+      }
+
+
+      .image-box img {
+        width: 100%;
+        border-radius: 8px;
+        max-height: 300px;
+        object-fit: cover;
+      }
+
+      .image-caption {
+        text-align: center;
+        background: #eee;
+        padding: 10px;
+        font-weight: 500;
+      }
+
+      .form-control:disabled {
+        background-color: #f8f8f8;
+      }
+    </style>
+    <div class="row">
+      <!-- Hình ảnh -->
+      <div class="col-md-7 image-box">
+        @if(isset($travelPackage) && $travelPackage->galleries->count() > 0)
+          <img src="{{ Storage::url($travelPackage->galleries[0]->path) }}" alt="{{ $travelPackage->name }}">
+        @else
+          <img src="https://via.placeholder.com/600" alt="No Image">
+        @endif
+        <div class="image-caption">{{ isset($travelPackage) ? $travelPackage->name : 'Vui lòng chọn chuyến đi' }}</div>
+      </div>
+
+      <!-- Form thông tin vé -->
+      <div class="col-md-5">
+        <div class="form-section">
+          <h5>🧾 Thông tin vé</h5>
+
+          <form action="{{ route('order.store') }}" method="POST">
+            @csrf
+
+            <!-- Hidden Input for Travel ID -->
+            @if(isset($travelPackage))
+              <input type="hidden" name="travel_id" value="{{ $travelPackage->id }}">
+              <div class="mb-3">
+                <label class="form-label text-primary">Đang đặt vé cho: <strong>{{ $travelPackage->name }}</strong></label>
+              </div>
+            @else
+              <!-- Fallback or selection if no ID passed (Optional logic) -->
+              <div class="mb-3">
+                <input type="number" name="travel_id" class="form-control" placeholder="Nhập ID Tour (Tạm thời)" required>
+              </div>
+            @endif
+
+            <div class="mb-3">
+              <label class="form-label">Giá vé:</label>
+              <input type="text" class="form-control"
+                value="{{ isset($travelPackage) ? number_format($travelPackage->price) . ' VND' : '---' }}" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Tên người đại diện:</label>
+              <input type="text" name="name" class="form-control" placeholder="Họ tên"
+                value="{{ Auth::user() ? Auth::user()->name : '' }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Số điện thoại:</label>
+              <input id="phone" type="text" name="phone" class="form-control" placeholder="Số điện thoại" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Số lượng vé:</label>
+              <input type="number" name="quantity" class="form-control" placeholder="Số lượng vé" value="1" min="1"
+                required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Ngày check-in:</label>
+              <input type="date" name="travel_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phương thức thanh toán:</label>
+              <select name="payment_method" class="form-select">
+                <option value="bank">Thanh toán qua ngân hàng trực tuyến</option>
+                <option value="cash">Thanh toán khi đến nơi</option>
+                <option value="wallet">Ví điện tử</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-submit btn-success">
+              Đặt vé ngay
+            </button>
+          </form>
+
         </div>
-
-        <div class="mb-3">
-          <label class="form-label">Giá vé:</label>
-          <input type="text" class="form-control" value="237.000 vnd" disabled>
-        </div>
-
-        <div class="mb-3">
-          <input type="text" class="form-control" placeholder="Họ tên">
-        </div>
-
-        <div class="mb-3">
-          <input id="phone" type="text" class="form-control" placeholder="Số điện thoại" value="">
-        </div>
-
-        <div class="mb-3">
-          <input type="number" class="form-control" placeholder="Số lượng vé">
-        </div>
-
-        <div class="mb-3">
-          <input type="date" class="form-control" value="2025-06-15">
-        </div>
-
-        <div class="mb-3">
-          <select class="form-select">
-            <option selected>Thanh toán qua ngân hàng trực tuyến</option>
-            <option>Thanh toán khi đến nơi</option>
-            <option>Ví điện tử</option>
-          </select>
-        </div>
-
-        <button onclick="submitForm()" class="btn btn-submit btn-success">
-        Đặt vé ngay
-        </button>
-
-        <script>
-        function submitForm() {
-          //kiểm tra trường số điện thoại đã có dữ liệu chưa
-          const phone = document.getElementById('phone').value;
-          //chưa thì thay đổi placeholder và chữ màu đỏ
-          if (phone === '') {
-            document.getElementById('phone').placeholder = 'Vui lòng nhập số điện thoại';
-            const style = document.createElement('style');
-            style.innerHTML = `
-              #phone::placeholder {
-                color: red;
-              }
-            `;
-            document.head.appendChild(style);
-            return;
-          } else {
-            //nếu có thì hiển thị thông báo thành công
-            showSuccessAlert();
-          }
-        }
-        function showSuccessAlert() {
-            Swal.fire({
-            icon: 'success',
-            title: 'Thêm chuyến đi thành công',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3085d6',
-            background: '#e6f7ff'
-            });
-        }
-        </script>
-
       </div>
     </div>
   </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @endsection

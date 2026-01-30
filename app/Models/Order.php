@@ -16,6 +16,7 @@ class Order extends Model
         'travel_date',
         'total_price',
         'status',
+        'count',
     ];
 
     public function travelPackage()

@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 interface TravelInterface
 {
     /**
-     * Lấy dữ liệu để hiển thị (ví dụ: danh sách hoặc chi tiết một dịch vụ).
-     * @param int|null $id ID của dịch vụ cụ thể, hoặc null để lấy tất cả.
+     * Lấy dữ liệu để hiển thị danh sách dịch vụ với bộ lọc.
+     * @param array $filters Các tham số lọc (keyword, location, etc.).
      * @return mixed
      */
-    public function getViewData(?int $id = null);
+    public function getViewData(array $filters = []);
 
     public function detail(int $id);
 
