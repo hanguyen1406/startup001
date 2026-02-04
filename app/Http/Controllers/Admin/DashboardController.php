@@ -15,9 +15,37 @@ class DashboardController extends Controller
         $users_count = \App\Models\User::where('is_admin', 0)->count();
         $travel_packages_count = \App\Models\TravelPackage::count();
         $orders_count = Order::count();
-        $revenue = Order::where('status', '!=', 'cancelled')->sum('total_price');
+        $revenue = Order::whereIn('status', ['confirmed', 'completed'])->sum('total_price');
 
-        return view('admin.dashboard.index', compact('users_count', 'travel_packages_count', 'orders_count', 'revenue'));
+        // Revenue Chart Data (12 months of current year)
+        $revenueData = Order::select(
+            DB::raw('sum(total_price) as sum'),
+            DB::raw("DATE_FORMAT(created_at,'%m') as month")
+        )
+            ->whereYear('created_at', date('Y'))
+            ->whereIn('status', ['confirmed', 'completed'])
+            ->groupBy('month')
+            ->pluck('sum', 'month');
+
+        $chartRevenue = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+            $chartRevenue[] = (float) ($revenueData[$month] ?? 0);
+        }
+
+        // Order Status Chart Data
+        $statusCounts = Order::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status')->all();
+
+        $chartStatus = [
+            $statusCounts['pending'] ?? 0,
+            $statusCounts['confirmed'] ?? 0,
+            $statusCounts['completed'] ?? 0,
+            $statusCounts['cancelled'] ?? 0
+        ];
+
+        return view('admin.dashboard.index', compact('users_count', 'travel_packages_count', 'orders_count', 'revenue', 'chartRevenue', 'chartStatus', 'statusCounts'));
     }
     public function usermanager()
     {
