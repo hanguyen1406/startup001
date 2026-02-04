@@ -11,11 +11,21 @@ class TravelPackage extends Model
 
     protected $guarded = [];
 
-    public function galleries(){
+    public function getDiscountedPriceAttribute()
+    {
+        if ($this->discount_percentage > 0) {
+            return $this->price - ($this->price * ($this->discount_percentage / 100));
+        }
+        return $this->price;
+    }
+
+    public function galleries()
+    {
         return $this->hasMany(Gallery::class);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 }

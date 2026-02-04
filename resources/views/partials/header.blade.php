@@ -17,13 +17,7 @@
             <span class="nav__name">Chuyến đi</span>
           </a>
         </li>
-        <li class="nav__item">
-          <a href="{{ route('service.all', ['type' => 'travel']) }}"
-            class="nav__link {{ request()->is('paket-travel') ? ' active-link' : '' }}">
-            <i class="bx bx-briefcase-alt nav__icon"></i>
-            <span class="nav__name">Khuyến mãi</span>
-          </a>
-        </li>
+
         <li class="nav__item">
           <a href="{{ route('history')}}">
             <i class="bx bx-briefcase-alt nav__icon"></i>

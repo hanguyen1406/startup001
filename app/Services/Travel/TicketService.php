@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TicketService implements TravelInterface
 {
@@ -37,6 +38,10 @@ class TicketService implements TravelInterface
             $query->where('category_id', $filters['category_id']);
         }
 
+        if (!empty($filters['departure'])) {
+            $query->where('departure', 'like', '%' . $filters['departure'] . '%');
+        }
+
         // Filter price <= input
         if (!empty($filters['price'])) {
             // Remove commas and ensure numeric
@@ -46,7 +51,11 @@ class TicketService implements TravelInterface
             }
         }
 
-        return $query->get();
+        if (!empty($filters['promotion'])) {
+            $query->where('discount_percentage', '>', 0);
+        }
+
+        return $query->paginate(4);
     }
     public function detail(int $id)
     {
@@ -99,9 +108,19 @@ class TicketService implements TravelInterface
             // $package = TravelPackage::create($packageData);
 
             $slug = Str::slug($data['name']);
-            TravelPackage::create($request->validated() + ["slug" => $slug]);
+            $packageData = [
+                'name' => $data['name'],
+                'slug' => $slug,
+                'location' => $data['location'],
+                'departure' => $data['departure'] ?? null,
+                'duration' => $data['duration'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'category_id' => $data['category_id'],
+            ];
+            $package = TravelPackage::create($packageData);
 
-            // $this->handleGalleries($package, $data);
+            $this->handleGalleries($package, $data);
 
             return $package;
         });

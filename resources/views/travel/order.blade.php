@@ -84,8 +84,16 @@
 
             <div class="mb-3">
               <label class="form-label">Giá vé:</label>
-              <input type="text" class="form-control"
-                value="{{ isset($travelPackage) ? number_format($travelPackage->price) . ' VND' : '---' }}" disabled>
+              @if(isset($travelPackage) && $travelPackage->discount_percentage > 0)
+                <div>
+                  <span class="text-muted text-decoration-line-through small">{{ number_format($travelPackage->price) }}
+                    VND</span>
+                  <span class="text-danger fw-bold ms-2">{{ number_format($travelPackage->discounted_price) }} VND</span>
+                </div>
+              @else
+                <input type="text" class="form-control"
+                  value="{{ isset($travelPackage) ? number_format($travelPackage->price) . ' VND' : '---' }}" disabled>
+              @endif
             </div>
 
             <div class="mb-3">

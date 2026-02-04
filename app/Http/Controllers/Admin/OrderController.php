@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index(): View
     {
-        $orders = Order::with(['user', 'travelPackage'])->latest()->get();
+        $orders = Order::with(['user', 'travelPackage'])->latest()->paginate(10);
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -27,5 +27,17 @@ class OrderController extends Controller
         $order->update(['status' => $validated['status']]);
 
         return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
+    }
+
+    public function checkIn($id)
+    {
+        $order = Order::findOrFail($id);
+
+        if ($order->status == 'confirmed') {
+            $order->update(['status' => 'completed']);
+            return redirect()->route('admin.orders.index')->with('message', 'Check-in thành công! Vé đã được sử dụng.');
+        }
+
+        return redirect()->route('admin.orders.index')->with('error', 'Vé không hợp lệ hoặc chưa được duyệt.');
     }
 }

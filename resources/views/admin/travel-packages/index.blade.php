@@ -25,8 +25,11 @@
                     <tr>
                         <th>ID</th>
                         <th>Tên chuyến đi</th>
-                        <th>Địa điểm</th>
+
+                        <th>Điểm đến</th>
+                        <th>Điểm khởi hành</th>
                         <th>Thời gian</th>
+
                         <th>Giá</th>
                         <th>Thể loại vé</th>
                         <th>Thao tác</th>
@@ -37,20 +40,23 @@
                         <tr>
                             <td>{{ $package->id }}</td>
                             <td>{{ $package->name }}</td>
+
                             <td>{{ $package->location }}</td>
+                            <td>{{ $package->departure }}</td>
                             <td>{{ $package->duration }}</td>
                             <td>{{ number_format($package->price) }}đ</td>
                             <td>{{ $package->category ? $package->category->title : 'N/A' }}</td>
                             <td>
-                                <a href="{{ route('admin.travel-packages.galleries.index', $package->id) }}" class="btn btn-sm btn-info me-2">
+                                <a href="{{ route('admin.travel-packages.galleries.index', $package->id) }}"
+                                    class="btn btn-sm btn-info me-2">
                                     <i class="fas fa-images"></i> Ảnh
                                 </a>
                                 <button type="button" class="btn btn-sm btn-primary me-2 edit-package-btn" data-toggle="modal"
                                     data-target="#editPackageModal"
                                     data-action="{{ route('admin.travel-packages.update', $package->id) }}"
                                     data-name="{{ $package->name }}" data-location="{{ $package->location }}"
-                                    data-duration="{{ $package->duration }}" data-price="{{ $package->price }}"
-                                    data-description="{{ $package->description }}"
+                                    data-departure="{{ $package->departure }}" data-duration="{{ $package->duration }}"
+                                    data-price="{{ $package->price }}" data-description="{{ $package->description }}"
                                     data-category-id="{{ $package->category_id }}">
                                     <i class="fas fa-edit"></i> Sửa
                                 </button>
@@ -91,7 +97,7 @@
                                 <input type="text" class="form-control" id="createName" name="name" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="createLocation" class="form-label">Địa điểm</label>
+                                <label for="createLocation" class="form-label">Điểm đến</label>
                                 <input type="text" class="form-control" id="createLocation" name="location" required>
                             </div>
                         </div>
@@ -105,13 +111,19 @@
                                 <input type="text" class="form-control price-input" id="createPrice" name="price" required>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="createCategory" class="form-label">Chọn thể loại vé</label>
-                            <select class="form-control" id="createCategory" name="category_id" required>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="createDeparture" class="form-label">Điểm khởi hành</label>
+                                <input type="text" class="form-control" id="createDeparture" name="departure" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="createCategory" class="form-label">Chọn thể loại vé</label>
+                                <select class="form-control" id="createCategory" name="category_id" required>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="createGalleries" class="form-label">Hình ảnh</label>
@@ -153,7 +165,7 @@
                                 <input type="text" class="form-control" id="packageName" name="name" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="packageLocation" class="form-label">Địa điểm</label>
+                                <label for="packageLocation" class="form-label">Điểm đến</label>
                                 <input type="text" class="form-control" id="packageLocation" name="location" required>
                             </div>
                         </div>
@@ -167,13 +179,19 @@
                                 <input type="text" class="form-control price-input" id="packagePrice" name="price" required>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="packageCategory" class="form-label">Chọn thể loại vé</label>
-                            <select class="form-control" id="packageCategory" name="category_id" required>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="packageDeparture" class="form-label">Điểm khởi hành</label>
+                                <input type="text" class="form-control" id="packageDeparture" name="departure" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="packageCategory" class="form-label">Chọn thể loại vé</label>
+                                <select class="form-control" id="packageCategory" name="category_id" required>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="packageGalleries" class="form-label">Hình ảnh (Chọn để thay đổi/thêm mới)</label>
@@ -202,6 +220,7 @@
             var editForm = document.getElementById('editPackageForm');
             var nameInput = document.getElementById('packageName');
             var locationInput = document.getElementById('packageLocation');
+            var departureInput = document.getElementById('packageDeparture');
             var durationInput = document.getElementById('packageDuration');
             var priceInput = document.getElementById('packagePrice');
             var descriptionInput = document.getElementById('packageDescription');
@@ -213,9 +232,12 @@
                     editForm.action = actionUrl;
 
                     nameInput.value = this.getAttribute('data-name');
+
                     locationInput.value = this.getAttribute('data-location');
+                    departureInput.value = this.getAttribute('data-departure');
                     durationInput.value = this.getAttribute('data-duration');
                     priceInput.value = this.getAttribute('data-price');
+                    formatCurrency(priceInput); // Format immediately
                     descriptionInput.value = this.getAttribute('data-description');
                     categoryInput.value = this.getAttribute('data-category-id');
                 });

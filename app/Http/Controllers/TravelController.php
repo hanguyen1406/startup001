@@ -50,7 +50,7 @@ class TravelController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        $orders = Order::where('user_id', Auth::id())->with('travelPackage')->latest()->get();
+        $orders = Order::where('user_id', Auth::id())->with('travelPackage')->latest()->paginate(10);
         return view('history', compact('orders'));
     }
     public function profile()

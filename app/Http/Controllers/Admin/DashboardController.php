@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $users_count = \App\Models\User::count();
+        $users_count = \App\Models\User::where('is_admin', 0)->count();
         $travel_packages_count = \App\Models\TravelPackage::count();
         $orders_count = Order::count();
         $revenue = Order::where('status', '!=', 'cancelled')->sum('total_price');
@@ -21,7 +21,7 @@ class DashboardController extends Controller
     }
     public function usermanager()
     {
-        $users = \App\Models\User::where('is_admin', 0)->get();
+        $users = \App\Models\User::where('is_admin', 0)->paginate(10);
         return view('admin.usermanager.index', compact('users'));
     }
 

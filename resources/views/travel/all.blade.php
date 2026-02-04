@@ -46,22 +46,21 @@
               <img src="https://img.icons8.com/emoji/24/000000/magnifying-glass-tilted-left-emoji.png" />
               Lọc nâng cao
             </div>
-            <button class="btn btn-outline-dark btn-sm">Xóa lọc</button>
+            <a href="{{ route('service.all', ['type' => 'travel']) }}" class="btn btn-outline-dark btn-sm">Xóa lọc</a>
           </div>
 
           <form>
             <div class="mb-2">
               <label class="form-label">Điểm khởi hành</label>
-              <input type="text" class="form-control" placeholder="VD: Hà Nội">
+              <input type="text" class="form-control" name="departure" placeholder="VD: Hà Nội"
+                value="{{ request('departure') }}">
             </div>
             <div class="mb-2">
               <label class="form-label">Điểm đến</label>
-              <input type="text" class="form-control" placeholder="VD: Đà Lạt">
+              <input type="text" class="form-control" name="location" placeholder="VD: Đà Lạt"
+                value="{{ request('location') }}">
             </div>
-            <div class="mb-2">
-              <label class="form-label">Ngày khởi hành</label>
-              <input type="date" class="form-control">
-            </div>
+
             <div class="mb-2">
               <label class="form-label">Thể loại vé</label>
               <select class="form-select" name="category_id">
@@ -74,8 +73,9 @@
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label">Mức giá</label>
-              <input type="number" class="form-control" placeholder="VNĐ">
+              <label class="form-label">Mức giá tối đa</label>
+              <input type="text" class="form-control price-input" id="searchPrice" name="price" placeholder="VNĐ"
+                value="{{ request('price') }}" oninput="formatCurrency(this)">
             </div>
             <button type="submit" class="btn btn-success w-100">Áp dụng</button>
           </form>
@@ -104,9 +104,20 @@
                   </div>
                   <div class="info">
                     <div class="mb-1 text-truncate" title="{{ $package->name }}"><strong>{{ $package->name }}</strong></div>
-                    <div class="small text-muted"><i class="fas fa-map-marker-alt"></i> {{ $package->location }}</div>
-                    <div class="text-danger fw-bold my-1">{{ number_format($package->price) }} VNĐ</div>
-                    <!-- <div class="small text-success">Ưu đãi: -0%</div> -->
+                    <div class="small text-muted d-flex flex-column align-items-center my-2">
+                      <div class="w-100 text-truncate text-center" title="{{ $package->departure ?? '?' }}"><i
+                          class="bx bxs-map"></i> {{ $package->departure ?? '?' }}</div>
+                      <div class="my-1"><i class="bx bx-down-arrow-alt"></i></div>
+                      <div class="w-100 text-truncate text-center" title="{{ $package->location }}"><i
+                          class="bx bxs-map-pin"></i> {{ $package->location }}</div>
+                    </div>
+                    @if($package->discount_percentage > 0)
+                      <div class="text-muted text-decoration-line-through small">{{ number_format($package->price) }} VNĐ
+                      </div>
+                      <div class="text-danger fw-bold my-1">{{ number_format($package->discounted_price) }} VNĐ</div>
+                    @else
+                      <div class="text-danger fw-bold my-1">{{ number_format($package->price) }} VNĐ</div>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -116,9 +127,30 @@
               </div>
             @endforelse
           </div>
+          <div class="d-flex justify-content-center mt-4">
+            {{ $data->appends(request()->all())->links() }}
+          </div>
         </div>
 
       </div>
     </div>
   </main>
+
+  <script>
+    function formatCurrency(input) {
+      // Remove non-numeric chars
+      let value = input.value.replace(/\D/g, "");
+      // Format with commas
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      input.value = value;
+    }
+
+    // Format on load if value exists
+    document.addEventListener('DOMContentLoaded', function () {
+      var priceInput = document.getElementById('searchPrice');
+      if (priceInput && priceInput.value) {
+        formatCurrency(priceInput);
+      }
+    });
+  </script>
 @endsection

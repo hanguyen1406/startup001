@@ -69,8 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('travel-packages', \App\Http\Controllers\Admin\TravelPackageController::class);
         Route::resource('travel-packages.galleries', \App\Http\Controllers\Admin\GalleryController::class);
+        Route::resource('promotions', \App\Http\Controllers\Admin\PromotionController::class)->only(['index', 'update']);
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::post('/admin/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update_status');
+        Route::get('/admin/orders/{id}/check-in', [OrderController::class, 'checkIn'])->name('orders.checkIn');
     });
 
 });

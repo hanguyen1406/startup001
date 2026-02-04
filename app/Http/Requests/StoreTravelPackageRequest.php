@@ -26,6 +26,7 @@ class StoreTravelPackageRequest extends FormRequest
         return [
             'name' => 'required',
             'location' => 'required',
+            'departure' => 'required',
             'duration' => 'required',
             'description' => 'required',
             'price' => 'required|integer',

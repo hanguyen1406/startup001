@@ -97,7 +97,14 @@
             <p><strong>Điểm đến:</strong> {{ $data->location }}</p>
             <p><strong>Thời gian:</strong> {{ $data->duration }}</p>
             <p><strong>Loại hình:</strong> {{ $data->category ? $data->category->title : 'N/A' }}</p>
-            <p><strong>Giá:</strong> <span class="text-danger fw-bold">{{ number_format($data->price) }} VNĐ</span>/người
+            <p><strong>Giá:</strong>
+              @if($data->discount_percentage > 0)
+                <span class="text-muted text-decoration-line-through small">{{ number_format($data->price) }} VNĐ</span>
+                <span class="text-danger fw-bold">{{ number_format($data->discounted_price) }} VNĐ</span>
+              @else
+                <span class="text-danger fw-bold">{{ number_format($data->price) }} VNĐ</span>
+              @endif
+              /người
             </p>
           </div>
         </div>

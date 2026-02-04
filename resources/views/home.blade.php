@@ -24,11 +24,11 @@
     </style>
     <!--=============== HOME ===============-->
     <section class="hero" id="hero" style="
-                background-repeat: no-repeat;
-                background-size: cover;
-                height: 100vh;
-                background-image: url('https://images.unsplash.com/photo-1605752660759-2db7b7de8fa9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2VuZ2dpZ2klMjBiZWFjaHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
-              ">
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                      height: 100vh;
+                      background-image: url('https://images.unsplash.com/photo-1605752660759-2db7b7de8fa9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2VuZ2dpZ2klMjBiZWFjaHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60');
+                    ">
       <div class="hero-content h-100 d-flex justify-content-center align-items-center flex-column">
         <h1 class="text-center text-white display-4">
           Khám phá thế giới theo cách của bạn
@@ -63,24 +63,35 @@
         <div class="container">
           <h6 class="mb-4"><strong>Chuyến đi nổi bật</strong></h6>
           <div class="row justify-content-center g-4">
-            @foreach($categories as $category)
-              @foreach($category->travel_packages as $package)
+            @foreach($categories->pluck('travel_packages')->collapse()->take(3) as $package)
                 <div class="col-md-3">
                   <div class="card h-100">
                     <img
                       src="{{ isset($package->galleries[0]) ? Storage::url($package->galleries[0]->path) : 'https://via.placeholder.com/300' }}"
                       class="card-img-top" alt="{{ $package->name }}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                      <h5 class="card-title">{{ $package->name }}</h5>
-                      <p class="card-text text-muted"><i class="fas fa-map-marker-alt"></i> {{ $package->location }}</p>
-                      <p class="card-text text-danger fw-bold">{{ number_format($package->price) }} VND</p>
+                    <div class="card-body d-flex flex-column">
+                      <h5 class="card-title text-center">{{ $package->name }}</h5>
+                      <div class="text-muted text-center mb-3 small d-flex flex-column align-items-center">
+                        <div class="fw-bold w-100 text-truncate"><i class="bx bxs-map"></i> {{ $package->departure ?? '?' }}
+                        </div>
+                        <div class="my-1"><i class="bx bx-down-arrow-alt"></i></div>
+                        <div class="fw-bold w-100 text-truncate"><i class="bx bxs-map-pin"></i> {{ $package->location }}</div>
+                      </div>
+                      @if($package->discount_percentage > 0)
+                        <p class="card-text text-muted text-decoration-line-through small text-center mb-0">
+                          {{ number_format($package->price) }} VND</p>
+                        <p class="card-text text-danger fw-bold text-center mt-auto mb-2">
+                          {{ number_format($package->discounted_price) }} VND</p>
+                      @else
+                        <p class="card-text text-danger fw-bold text-center mt-auto mb-2">{{ number_format($package->price) }}
+                          VND</p>
+                      @endif
                       <button onclick="window.location.href='/detail/travel?id={{ $package->id }}'"
                         class="btn btn-primary w-100">Xem chi tiết</button>
                     </div>
                   </div>
                 </div>
               @endforeach
-            @endforeach
           </div>
         </div>
       </div>

@@ -84,7 +84,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer d-flex justify-content-center">
+                    {{ $orders->links() }}
+                </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

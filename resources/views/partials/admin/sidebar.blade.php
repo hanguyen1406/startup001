@@ -46,6 +46,13 @@
             <span class="ms-2">Quản lí thể loại du lịch</span>
         </a>
     </li>
+    <!-- Quản lí Khuyến mãi -->
+    <li class="nav-item">
+        <a class="nav-link text-white" href="{{ route('admin.promotions.index') }}">
+            <i class="fas fa-percent"></i>
+            <span class="ms-2">Quản lý Khuyến mãi</span>
+        </a>
+    </li>
     <!-- Items Removed -->
 
 </ul>
