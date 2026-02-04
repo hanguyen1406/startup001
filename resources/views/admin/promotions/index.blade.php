@@ -11,7 +11,7 @@
         @endif
 
         <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
+            <table class="table table-bordered text-center align-middle w-100">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th>ID</th>

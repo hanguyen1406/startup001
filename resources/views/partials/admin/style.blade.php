@@ -5,3 +5,13 @@
 
 <!-- Custom styles for this template-->
 <link href="{{ asset('backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
+<style>
+    .container-fluid {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .table-responsive {
+        width: 100% !important;
+    }
+</style>

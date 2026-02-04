@@ -1,74 +1,60 @@
 @extends('admin.layout')
 
 @section('content')
-    <div class="content container-fluid">
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h3 class="page-title">Quản lý Khách hàng</h3>
-                </div>
-            </div>
-        </div>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800 font-weight-bold">Quản lý Khách hàng</h1>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card card-table">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-stripped table-hover datatable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tên Khách hàng</th>
-                                        <th>Email</th>
-                                        <th>Ngày tham gia</th>
-                                        <th>Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $user)
-                                        <tr>
-                                            <td>#{{ $user->id }}</td>
-                                            <td>
-                                                <div class="table-avatar">
-                                                    <a href="#" style="font-size: 14px; font-weight: 600;">{{ $user->name }}</a>
-                                                </div>
-                                            </td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                                            <td class="text-end">
-                                                <div class="actions">
-                                                    <button type="button" class="btn btn-sm btn-primary me-2 edit-user-btn"
-                                                        data-toggle="modal" data-target="#editUserModal"
-                                                        data-action="{{ route('admin.usermanager.update', $user->id) }}"
-                                                        data-name="{{ $user->name }}" data-email="{{ $user->email }}">
-                                                        <i class="fas fa-edit"></i> Sửa
-                                                    </button>
-                                                    <form action="{{ route('admin.usermanager.destroy', $user->id) }}"
-                                                        method="POST" class="d-inline"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">
-                                                            <i class="fas fa-trash-alt"></i> Xóa
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex justify-content-center">
-                    {{ $users->links() }}
-                </div>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center w-100">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên Khách hàng</th>
+                        <th>Email</th>
+                        <th>Ngày tham gia</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($users as $user)
+                        <tr>
+                            <td>#{{ $user->id }}</td>
+                            <td>
+                                <div class="table-avatar">
+                                    <a href="#" style="font-size: 14px; font-weight: 600;">{{ $user->name }}</a>
+                                </div>
+                            </td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                            <td class="text-end">
+                                <div class="actions">
+                                    <button type="button" class="btn btn-sm btn-primary me-2 edit-user-btn" data-toggle="modal"
+                                        data-target="#editUserModal"
+                                        data-action="{{ route('admin.usermanager.update', $user->id) }}"
+                                        data-name="{{ $user->name }}" data-email="{{ $user->email }}">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </button>
+                                    <form action="{{ route('admin.usermanager.destroy', $user->id) }}" method="POST"
+                                        class="d-inline"
+                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i> Xóa
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $users->links() }}
         </div>
     </div>
-    </div>
+
 
     <!-- Edit User Modal -->
     <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"

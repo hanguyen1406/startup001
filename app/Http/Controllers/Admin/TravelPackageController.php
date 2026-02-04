@@ -18,7 +18,7 @@ class TravelPackageController extends Controller
 
     public function index(): View
     {
-        $travelPackages = TravelPackage::with('category')->get();
+        $travelPackages = TravelPackage::with('category')->paginate(7);
         $categories = Category::all();
 
         return view('admin.travel-packages.index', compact('travelPackages', 'categories'));

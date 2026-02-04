@@ -10,7 +10,7 @@ class PromotionController extends Controller
 {
     public function index()
     {
-        $travelPackages = TravelPackage::paginate(10);
+        $travelPackages = TravelPackage::paginate(7);
         return view('admin.promotions.index', compact('travelPackages'));
     }
 

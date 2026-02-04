@@ -20,7 +20,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center w-100">
                 <thead class="bg-primary text-white">
                     <tr>
                         <th>ID</th>
@@ -74,6 +74,9 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $travelPackages->links() }}
         </div>
     </div>
 

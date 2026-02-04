@@ -21,7 +21,7 @@ class DashboardController extends Controller
     }
     public function usermanager()
     {
-        $users = \App\Models\User::where('is_admin', 0)->paginate(10);
+        $users = \App\Models\User::where('is_admin', 0)->paginate(7);
         return view('admin.usermanager.index', compact('users'));
     }
 
